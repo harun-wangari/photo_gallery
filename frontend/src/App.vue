@@ -1,15 +1,12 @@
 <template>
-  My app
-    <Login/>
+  <Nav :menuItems="menu"/>
+  <router-view/>
 </template>
 
-<script>
+<script setup>
+import Nav from "./components/Nav.vue"
+import { ref } from "vue";
 
-import Login from "./views/Login.vue"
+let menu = ref(["Dashboard","About","Contact","Gallery"])
 
-export default{
- components:{
-  Login
- },
-}
 </script>

@@ -1,0 +1,11 @@
+.body{
+    background-image: url("../../public/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #222;
+}
+
+.content{
+    background-color: rgba(22, 22, 22, 0.9);
+}
+
