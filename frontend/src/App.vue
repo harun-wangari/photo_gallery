@@ -1,12 +1,12 @@
 <template>
-  <Nav :menuItems="menu"/>
+  <Sidebar :menuItems="menu"/>
   <router-view/>
 </template>
 
 <script setup>
-import Nav from "./components/Nav.vue"
 import { ref } from "vue";
+import Sidebar from "./components/Sidebar.vue";
 
 let menu = ref(["Dashboard","About","Contact","Gallery"])
 
-</script>
+</script>./components/Sidebar.vue
