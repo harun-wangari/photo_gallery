@@ -11,8 +11,11 @@ import Thumbnail from './Thumbnail.vue';
         <div class="main">
             <Thumbnail/>
             <Thumbnail/>
-            <div class="photos">
+            <div class="photos d-none">
                 <ViewPhoto/>
+            </div>
+            <div class="photos">
+                <UploadPhoto/>
             </div>
         </div>
     </div>
@@ -20,6 +23,7 @@ import Thumbnail from './Thumbnail.vue';
 
 <script setup>
     import Thumbnail from './Thumbnail.vue';
+    import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
 </script>
 
