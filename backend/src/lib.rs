@@ -1,6 +1,7 @@
 mod router;
 mod routes;
 mod database;
+mod utils;
 
 use router::create_router;
 use database::database_connection;
