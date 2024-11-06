@@ -1,0 +1,12 @@
+D:\Projects\photo_gallery-master\backend\target\debug\deps\libsqlx-34b35747c399065b.rmeta: C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\mod.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros\mod.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\ty_match.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\spec_error.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.md C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros/test.md C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\install_drivers_note.md
+
+D:\Projects\photo_gallery-master\backend\target\debug\deps\sqlx-34b35747c399065b.d: C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\mod.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros\mod.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\ty_match.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\spec_error.rs C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.md C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros/test.md C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\install_drivers_note.md
+
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.rs:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\mod.rs:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros\mod.rs:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\ty_match.rs:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\spec_error.rs:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\lib.md:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros/test.md:
+C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\any\install_drivers_note.md:

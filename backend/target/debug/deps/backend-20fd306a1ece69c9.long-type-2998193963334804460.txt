@@ -1,0 +1,1 @@
+fn(State<{type error}>, axum::Json<user_routes::Body>) -> impl Future<Output = Result<axum::Json<User>, axum::http::StatusCode>> {user_login}
