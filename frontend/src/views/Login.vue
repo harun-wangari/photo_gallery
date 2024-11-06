@@ -62,7 +62,7 @@ const {value: password} = useField('password')
 
 const onSubmit = handleSubmit ((data) => {
    
-        fetch("http://127.0.0.1:3000/login",{
+        fetch("http://127.0.0.1:3000/api/login",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
