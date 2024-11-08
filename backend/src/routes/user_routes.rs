@@ -1,5 +1,5 @@
 use axum::{extract::State, http::StatusCode, Json};
-use sqlx::{MySqlPool,FromRow};
+use sqlx::{ error::ErrorKind, Error, FromRow, MySqlPool};
 use serde::{Serialize,Deserialize};
 use crate::utils::jwt::{create_jwt};
 
@@ -22,7 +22,7 @@ pub struct Body{
 #[derive(Serialize,Deserialize)]
 pub struct Response {
     id: i64,
-    error:i32,
+    error:String,
 }
 
 
@@ -38,7 +38,7 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
     }
 }
 
-pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<Json<Response>,(StatusCode,String)>{
+pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<Json<Response>,Json<Response>>{
     // let user_exit = sqlx::query_as("SELECT email FROM tb_users WHERE email = ?")
     // .bind(body.email)
     // .fetch_one(&db)
@@ -46,9 +46,9 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
 
 
     let hashed_password = bcrypt::hash(body.password,14).unwrap();
-    let token = "fghj".to_owned();
+    let token = create_jwt().unwrap();
     // let email = &body.email;
-    let result = sqlx::query("INSERT IGNORE INTO tb_users (email,password,photo,token) VALUES (?,?,?,?)")
+    let result = sqlx::query("INSERT INTO tb_users (email,password,photo,token) VALUES (?,?,?,?)")
     .bind(&body.email)
     .bind(hashed_password)
     .bind(body.photo)
@@ -60,10 +60,30 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
         Ok(res) => Ok(Json(
             Response{
                 id: res.last_insert_id() as i64,
-                error:0,
+                error:"User has been registered successfully".to_owned(),
             }
     )
     ),
-        Err(err) => Err((StatusCode::INTERNAL_SERVER_ERROR,err.to_string()))
+        Err(err) => {
+            match err {
+                sqlx::Error::Database(e) =>  {
+                    if e.code() == Some(std::borrow::Cow::Borrowed("23000"))  {
+                       Err( Json(Response{
+                            id: 0,
+                            error:"Email has already been used".to_owned(),
+                        }))
+                    }else{
+                        Err( Json(Response{
+                            id: 0,
+                            error:"some thing went wrong while executing the query".to_owned(), 
+                        }))
+                    }
+                }
+                _ =>   Err( Json(Response{
+                            id: 0,
+                            error:"some thing when wrong".to_owned(), // internal server error
+                        }))
+            }   
+        }
     }
 }
