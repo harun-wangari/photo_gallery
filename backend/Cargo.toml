@@ -16,4 +16,6 @@ jsonwebtoken = "9.3.0"
 chrono = "0.4.38"
 bcrypt = "0.15.1"
 dotenvy_macro = "0.15.7"
+thiserror = "2.0.2"
+tracing = "0.1.40"
 

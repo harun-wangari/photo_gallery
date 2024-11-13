@@ -3,7 +3,6 @@ use chrono::{Duration, Utc};
 use dotenvy_macro::dotenv;
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize,Serialize};
-use sqlx::Execute;
 
 #[derive(Deserialize, Serialize)]
 pub struct Claim{
