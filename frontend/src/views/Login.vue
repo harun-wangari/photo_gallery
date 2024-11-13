@@ -34,7 +34,7 @@
 
 <script setup>
 import { watch } from "vue";
-import {object,string} from "zod";
+import {object,promise,string} from "zod";
 import {useToast} from "vue-toastification";
 import router from "../router";
 import { user } from "../assets/store.js";
@@ -62,7 +62,7 @@ const {value: password} = useField('password')
 
 const onSubmit = handleSubmit ((data) => {
    
-        fetch("http://127.0.0.1:3000/api/login",{
+        fetch("http://localhost:3000/api/login",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
@@ -71,15 +71,18 @@ const onSubmit = handleSubmit ((data) => {
                 email:data.email,
                 password:data.password,
             })
-        }).then((res) => res.json())
+        })
+        .then((res) => res)
         .then((data) => {
-            if(data.error == 0){
-                user.name = data.user
+            if(data.status==200) {
+                // user.name = data.email
                 user.isLoggedIn = true
                 router.push('/dashboard')
-                toast.success("Log in successfull, Welcome " + data.user)
+                toast.success("Log in successfull, Welcome ")
             }else{
-                toast.error("invalid credentials" ,{autoClose:1000})
+                console.log(data.body)
+                console.log(data.text())
+                toast.error(data.text() ,{autoClose:1000})
             }
         })
     })
