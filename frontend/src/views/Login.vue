@@ -80,9 +80,10 @@ const onSubmit = handleSubmit ((data) => {
                 router.push('/dashboard')
                 toast.success("Log in successfull, Welcome ")
             }else{
-                console.log(data.body)
-                console.log(data.text())
-                toast.error(data.text() ,{autoClose:1000})
+                data.text().then( text => {
+                    toast.error(text ,{autoClose:1000})
+                  
+                })
             }
         })
     })
