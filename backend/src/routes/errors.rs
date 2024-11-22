@@ -1,7 +1,9 @@
 use axum::{body::Body, http::{Response, StatusCode}, response::IntoResponse, Json};
 use thiserror::Error;
 
+
 #[derive(Error, Debug)]
+
 
 pub enum DataError {
     #[error("Failed database query: {0}")]
