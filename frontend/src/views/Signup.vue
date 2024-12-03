@@ -99,8 +99,8 @@ const onSubmit = handleSubmit ((data) => {
             if(data.status==200) {
                 // user.name = data.email
                 user.isLoggedIn = true
-                router.push('/dashboard')
-                toast.success("Log in successfull, Welcome ")
+                data.text().then(text => toast.success(text))
+                router.push('/login')
             }else{
                 data.text().then( text => {
                     toast.error(text ,{autoClose:1000})
