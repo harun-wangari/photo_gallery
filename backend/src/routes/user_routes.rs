@@ -10,6 +10,8 @@ use super::errors::DataError;
 #[derive(Serialize,Deserialize,FromRow)]
 pub struct User{
     id:Option<u64>,
+    surname:String,
+    lastname:String,
     email: String,
     password: String,
     photo: String,
@@ -21,13 +23,6 @@ pub struct Body{
     email: String,
     password: String,
 }
-
-#[derive(Serialize,Deserialize)]
-pub struct Response {
-    // id: u64,
-    error:String,
-}
-
 
 
 pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Result<Json<User>,DataError> {
@@ -47,6 +42,8 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
         Ok(Json(
             User{
                 id:Some(user.id.clone() as u64),
+                surname: user.surname.clone(),
+                lastname: user.lastname.clone(),
                 email: user.email.clone(),
                 password: "".to_string(),
                 photo: user.photo.clone(),
@@ -58,12 +55,14 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
     }
 }
 
-pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<Json<Response>,DataError>{
+pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<String,DataError>{
 
     let hashed_password = bcrypt::hash(body.password,14).unwrap();
     let token = create_jwt().unwrap();
     // let email = &body.email;
-    sqlx::query("INSERT INTO tb_users (email,password,photo,token) VALUES (?,?,?,?)")
+    sqlx::query("INSERT INTO tb_users (surname,lastname,email,password,photo,token) VALUES (?,?,?,?,?,?)")
+    .bind(&body.surname)
+    .bind(&body.lastname)
     .bind(&body.email)
     .bind(hashed_password)
     .bind(body.photo)
@@ -84,10 +83,6 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
         }
     )?;
 
-    Ok(Json(
-        Response{
-            error:"User has been registered successfully".to_owned(),
-        }
-    ))  
+    Ok("User has been registered successfully".to_owned(),)  
 
 }

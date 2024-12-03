@@ -20,8 +20,8 @@
                 </form>
                 <h5>Categories</h5><hr>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="#" class="nav-link text-secondary">Videos</a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-secondary">Photos</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-secondary">Videos</a></li>
                 </ul>
             </div>
             <div class="m-2 w-100 albums-nav" >
