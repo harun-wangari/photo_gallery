@@ -30,5 +30,5 @@ impl IntoResponse for DataError {
 
 fn server_error(e:String) -> (StatusCode,Response<Body>){
     tracing::error!("server_error: {}", e);
-    (StatusCode::INTERNAL_SERVER_ERROR,e.into_response())
+    (StatusCode::UNAUTHORIZED,e.into_response())
 }

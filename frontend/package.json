@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev::frontend":"vite --port 5000",
+    "dev:backend":"cargo watch -C ../backend -x run",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -12,6 +14,7 @@
     "@vue/compat": "^3.3.10",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.2",
+    "concurrently": "^9.1.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "vee-validate": "^4.12.2",

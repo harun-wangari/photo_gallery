@@ -56,15 +56,6 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
     }else{
          Err(DataError::QueryError("invalid credentials".to_string()))
     }
-    // Ok(Json(
-    //     User{
-    //         id:Some(3 as u64),
-    //         email: "user".to_string(),
-    //         password: "".to_string(),
-    //         photo: "photo".to_string(),
-    //         token:Some("token".to_string()),
-    //     }
-    // ))
 }
 
 pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<Json<Response>,DataError>{
