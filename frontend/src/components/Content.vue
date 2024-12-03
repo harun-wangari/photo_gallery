@@ -1,14 +1,13 @@
 
-import Thumbnail from './Thumbnail.vue';
 <template>
-    <div style="position: relative;height:100vh">
-        <nav aria-label="breadcrumb" style="width: 100%;">
+    <div style="position: relative;height:100vh" class="">
+        <nav aria-label="breadcrumb" class=" bg-danger bg-opacity-50 bg-gradient" style="width: 100%;">
             <ol class="breadcrumb shadow p-2">
-                <li class="breadcrumb-item"><a href="#" class="text-dark text-decoration-none ">Photos</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Library</li>
+                <li class="breadcrumb-item"><a href="#" class="text-dark text-decoration-none ">{{navigation.category}}</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
             </ol>
         </nav>
-        <div class="main">
+        <div class="main ">
             <Thumbnail/>
             <Thumbnail/>
             <div class="photos d-none">
@@ -25,6 +24,7 @@ import Thumbnail from './Thumbnail.vue';
     import Thumbnail from './Thumbnail.vue';
     import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
+    import { navigation } from '../assets/store';
 </script>
 
 <style scoped>

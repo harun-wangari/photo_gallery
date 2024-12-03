@@ -1,10 +1,10 @@
 <template>
     
-    <div class="d-flex h-100 w-100">
+  <div class="d-flex h-100 w-100">
     <div class="side">
       <Sidebar :menuItems="menu"/>
     </div>
-    <div class="content">
+    <div class="content w-100">
       <Content/>
     </div>
   </div>
@@ -13,5 +13,5 @@
 <script setup>
 import Sidebar from "../components/Sidebar.vue";
 import Content from "../components/Content.vue";
-import { user } from "../assets/store.js";
 </script>
+

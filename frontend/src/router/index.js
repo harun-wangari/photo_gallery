@@ -2,7 +2,9 @@ import {createRouter,createWebHistory} from "vue-router"
 import Login from "../views/Login.vue"
 import Signup from "../views/Signup.vue"
 import Dashboard from "../views/Dashboard.vue"
-import {user} from "../assets/store.js"
+import pinia,{useUserStore} from '../assets/store'
+
+const user = useUserStore(pinia)
 
 const routes = [
     {
@@ -21,7 +23,7 @@ const routes = [
         component: Signup,
         beforeEnter: (to,from) => {
             if(user.isLoggedIn){
-                router.push("/dashboard")
+                router.push("/login")
             }
         }
     },
