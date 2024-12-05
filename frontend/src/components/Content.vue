@@ -1,7 +1,7 @@
 
 <template>
     <div style="position: relative;height:100vh" class="">
-        <nav aria-label="breadcrumb" class=" bg-danger bg-opacity-50 bg-gradient" style="width: 100%;">
+        <nav aria-label="breadcrumb" class=" bg-danger bg-opacity-75 bg-gradient" style="width: 100%;">
             <ol class="breadcrumb shadow p-2">
                 <li class="breadcrumb-item"><a href="#" class="text-dark text-decoration-none ">{{navigation.category}}</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
@@ -13,7 +13,7 @@
             <div class="photos d-none">
                 <ViewPhoto/>
             </div>
-            <div class="photos">
+            <div class="photos d-none">
                 <UploadPhoto/>
             </div>
         </div>

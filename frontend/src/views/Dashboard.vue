@@ -13,5 +13,7 @@
 <script setup>
 import Sidebar from "../components/Sidebar.vue";
 import Content from "../components/Content.vue";
+
+let menu = ["my pics", "others"]
 </script>
 

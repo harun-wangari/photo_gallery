@@ -26,21 +26,14 @@ export  const useUserStore = defineStore('user',{
         }
     ),
     actions:{
-        setUser(value){
-            console.log(value);
-            this.id = value.id,
-            this.surname = value.surname,
-            this.lastname = value.lastname,
-            this.email = value.email,
-            this.photo = value.photo,
-            this.token = value.token,
-            this.isLoggedIn = value.isLoggedIn
+        setUser(value){ 
+            this.$patch(value)
         },
         getSurname(){
-            this.surname
+            return this.surname
         },
         getIsLoggedIn(){
-            this.isLoggedIn
+            return this.isLoggedIn
         }
     }
 
