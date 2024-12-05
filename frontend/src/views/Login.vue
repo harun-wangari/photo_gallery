@@ -90,10 +90,10 @@ const onSubmit = handleSubmit ((data) => {
             if(res.status==200) {
                 res.json().then(data => {
                     user.setUser({id:data.id,surname:data.surname,lastname:data.lastname,email:data.email,photo:data.photo,token:data.token,isLoggedIn:true})
+                    console.log(user.isLoggedIn)
+                    router.push('/dashboard')
+                    toast.success("Log in successfull, Welcome " + user.surname)
                 })
-                console.log(user)
-                router.push('/dashboard')
-                toast.success("Log in successfull, Welcome " + user.getSurname())
             }else{
                 data.text().then( text => {
                     toast.error(text ,{autoClose:1000})
