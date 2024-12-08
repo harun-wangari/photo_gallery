@@ -1,6 +1,5 @@
-use axum::{body::Body, http::{Response, StatusCode}, response::IntoResponse, Json};
+use axum::{body::Body, extract::multipart, http::{Response, StatusCode}, response::IntoResponse};
 use thiserror::Error;
-
 
 #[derive(Error, Debug)]
 
@@ -13,7 +12,10 @@ pub enum DataError {
     QueryError(String),
 
     #[error("bcrypt error: {0}")]
-    Bcrypt(#[from] bcrypt::BcryptError )
+    Bcrypt(#[from] bcrypt::BcryptError ),
+
+    #[error("Multipart error: {0}")]
+    Multipart(#[from] multipart::MultipartError )
     
 }
 
@@ -23,6 +25,7 @@ impl IntoResponse for DataError {
             DataError::DatabaseError(error) => server_error(error.to_string()),
             DataError::QueryError(query_error) => server_error(query_error.to_string()),
             DataError::Bcrypt(bcrypt_error) => server_error(bcrypt_error.to_string()),
+            DataError::Multipart(multipart_error) => server_error(multipart_error.to_string()),
         };
         (status, response).into_response()
     }
