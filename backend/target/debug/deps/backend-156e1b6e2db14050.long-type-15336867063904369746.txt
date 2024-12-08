@@ -1,0 +1,1 @@
+sqlx::query::Map<'_, MySql, {closure@C:\Users\Harun\.cargo\registry\src\index.crates.io-6f17d22bba15001f\sqlx-0.8.2\src\macros\mod.rs:328:9: 328:80}, MySqlArguments>

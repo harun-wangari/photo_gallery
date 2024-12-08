@@ -1,5 +1,5 @@
 mod router;
-mod routes;
+mod handlers;
 mod database;
 mod utils;
 
