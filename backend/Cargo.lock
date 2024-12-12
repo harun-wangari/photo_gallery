@@ -1817,6 +1817,7 @@ dependencies = [
  "smallvec",
  "sqlformat",
  "thiserror 1.0.65",
+ "time",
  "tokio",
  "tokio-stream",
  "tracing",
@@ -1900,6 +1901,7 @@ dependencies = [
  "sqlx-core",
  "stringprep",
  "thiserror 1.0.65",
+ "time",
  "tracing",
  "whoami",
 ]
@@ -1938,6 +1940,7 @@ dependencies = [
  "sqlx-core",
  "stringprep",
  "thiserror 1.0.65",
+ "time",
  "tracing",
  "whoami",
 ]
@@ -1961,6 +1964,7 @@ dependencies = [
  "serde",
  "serde_urlencoded",
  "sqlx-core",
+ "time",
  "tracing",
  "url",
 ]

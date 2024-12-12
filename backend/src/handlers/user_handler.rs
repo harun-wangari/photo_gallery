@@ -60,7 +60,7 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
     let hashed_password = bcrypt::hash(body.password,14).unwrap();
     let token = create_jwt().unwrap();
     // let email = &body.email;
-    sqlx::query("INSERT INTO tb_users (surname,lastname,email,password,photo,token) VALUES (?,?,?,?,?,?)")
+    sqlx::query("INSERT INTO tb_files (surname,lastname,email,password,photo,token) VALUES (?,?,?,?,?,?)")
     .bind(&body.surname)
     .bind(&body.lastname)
     .bind(&body.email)
