@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm:dev:*\"",
     "dev::frontend": "vite --port 5000",
-    "dev:backend": "cargo watch -C ../backend -x run",
+    "dev:backend": "cargo watch -C ../backend -c -x run",
     "build": "vite build",
     "preview": "vite preview"
   },
