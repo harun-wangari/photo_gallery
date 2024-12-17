@@ -8,8 +8,7 @@
             </ol>
         </nav>
         <div class="main ">
-            <Thumbnail/>
-            <Thumbnail/>
+            <Thumbnail v-for = "file in media.files" :image="file"/>
             <div class="photos d-none">
                 <ViewPhoto/>
             </div>
@@ -25,6 +24,13 @@
     import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
     import { navigation } from '../assets/store';
+    import { useMediaStore } from '../assets/store';
+    import { useUserStore } from '../assets/store';
+
+    const media = useMediaStore();
+    const user = useUserStore();
+    media.setFiles(user.id.toString())
+    console.log(media.files);
 </script>
 
 <style scoped>

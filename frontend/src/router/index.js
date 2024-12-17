@@ -33,7 +33,6 @@ const routes = [
         component: Dashboard,
         beforeEnter: (to,from) => {
             const user = useUserStore()
-            console.log(user.isLoggedIn)
             if(!user.isLoggedIn){
                 router.push("/login")
             }

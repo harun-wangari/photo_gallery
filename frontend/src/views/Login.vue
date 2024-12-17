@@ -95,7 +95,7 @@ const onSubmit = handleSubmit ((data) => {
                     toast.success("Log in successfull, Welcome " + user.surname)
                 })
             }else{
-                data.text().then( text => {
+                res.text().then( text => {
                     toast.error(text ,{autoClose:1000})
                   
                 })

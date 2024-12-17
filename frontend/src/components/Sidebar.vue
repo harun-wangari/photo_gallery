@@ -6,7 +6,7 @@
                     <img src="/background.jpg" alt="" class="rounded-circle userpic">
                 </div>
                 <div class="user-info">
-                    <p class="text-light m-0">Harun Njenga</p>
+                    <p class="text-light m-0">{{user.lastname + " " + user.surname}}</p>
                     <p class="text-secondary">files 200</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
@@ -36,6 +36,9 @@
 </template>
 
 <script setup>
+import { useUserStore } from '../assets/store';
+
+const user  = useUserStore();
 const props = defineProps({menuItems:{type:Array}})
 </script>
 
