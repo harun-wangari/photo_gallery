@@ -1,8 +1,9 @@
-use chrono::{Date, DateTime, TimeZone, Utc};
+use std::{env, path::Path};
+
 use serde::{Deserialize, Serialize};
 use sqlx:: MySqlPool;
 use tokio::{fs::File, io::AsyncWriteExt};
-use axum::{extract::{ Multipart, State}, http::Response, Json};
+use axum::{extract::{ Multipart, State}, Json};
 
 use super::errors::DataError;
 
@@ -29,13 +30,22 @@ pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) ->
                         }else{
                            DataError::QueryError("some thing went wrong while executing the query".to_owned()) 
                         }
-                    },
+                    },                   
                     _ =>  DataError::DatabaseError(error)     
                 }
             )?;
 
-            let mut file = File::create(format!("./images/{}",field_name)).await.unwrap();
-            file.write(&data).await.unwrap();    
+            let current_path = env::current_dir().unwrap() ;
+            let res = Path::new(&current_path).parent().unwrap();
+            let mut file = File::create(res.join("frontend").join("public").join("images").join(field_name.clone())).await
+            .map_err(|_| {
+               
+                DataError::QueryError(format!("Error occured while try to save '{}' file",field_name).to_string())
+            })? ;
+            file.write(&data).await
+            .map_err(|_| {
+                DataError::QueryError(format!("Error occured while try to save '{}' file",field_name).to_string())
+            })?;    
         }
        
 

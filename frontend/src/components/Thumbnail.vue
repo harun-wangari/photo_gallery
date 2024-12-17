@@ -1,10 +1,10 @@
 <template>
     <div class="thumbnail">
         <div class="image">
-            <img src="/background.jpg" alt="" style="width: 100% ;height: 200px;">
+            <img :src="/images/ + image.name"    alt="" style="width: 100% ;height: 200px;">
             <div class="details">
-                <span>photo details </span><br/>
-                <span>12/05/2024</span>
+                <span>{{ image.name}} </span><br/>
+                <span>{{ image.date_uploaded}}</span>
             </div>
         </div>
         
@@ -65,3 +65,8 @@
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
+
+<script setup>
+    const props = defineProps(['image'])
+    console.log(props.image)
+</script>
