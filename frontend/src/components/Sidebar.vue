@@ -10,7 +10,7 @@
                     <p class="text-secondary">files 200</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <button type="button" class="btn btn-danger p-0 ps-4 pe-4 pb-1">Upload</button>
+                    <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-0 ps-4 pe-4 pb-1">Upload</button>
                 </div>
                 
             </div>
@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" placeholder="search files ...">
                 </form>
                 <h5>Categories</h5><hr>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav"> 
                     <li class="nav-item"><a href="#" class="nav-link text-secondary">Photos</a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-secondary">Videos</a></li>
                 </ul>
@@ -36,10 +36,15 @@
 </template>
 
 <script setup>
-import { useUserStore } from '../assets/store';
+import { useUserStore,useMenuStore } from '../assets/store';
 
 const user  = useUserStore();
+const menu = useMenuStore();
 const props = defineProps({menuItems:{type:Array}})
+
+const handleBtnUploadClick = () => {
+    menu.uploadWindowIsActive = true;
+}
 </script>
 
 <style scoped>

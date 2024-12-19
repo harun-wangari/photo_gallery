@@ -1,26 +1,108 @@
 <template>
-    <div class="main row">
-        <div class="col-lg-12 flex" style="height: 35px; box-shadow: 10px 10px 10px#222;">
-            <span class="bi bi-x-square fs-4 text-danger p-0 m-0" style="float:right;" @click="handleCloseBtnClick"></span>
+    <div class="d-flex row main">+
+
+        <div class="col-lg-6 col-md-8 flex p-2 bg-dark rounded border border-danger" style="height: calc(300px + 30vh); box-shadow: 10px 10px 10px#222;">
+            <div class="d-flex  shadow rounded bg-opacity-25 bg-gradient mb-2">
+                <span class="bi bi-x-square fs-4 text-danger p-0 m-0" style="float:right;" @click="handleBtnCloseClick"></span>
+            </div>
+            <div class="rounded border border-dark mb-4 overflow-auto" style="height: 70%;">
+                <div v-for ="file,index in files.list" class="filelist p-0 m-0" >
+                    <div class="border bg-dark-subtle rounded mt-2 p-1" style="height: 40px;">
+                        <span>{{ file.name }}</span>
+                        <span class="bi bi-x-square fs-4 text-danger p-0 m-0" style="float:right;" @click="handleBtnRemoveFileClick" :id="index"></span>
+                    </div>
+                </div>
+                <div :class="files.list.length == 0 ? 'border bg-dark-subtle rounded mt-2 p-1 text-center' : 'd-none'" style="height: 40px;">
+                    <div>
+                        <span>No file(s) selected for upload</span>
+                    </div>
+                    <div style="margin-top: 60px;">
+                        <img src="/emptyfile.gif" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="row p-2">
+                <input type="file" ref="uploadfile" accept="image/*,video/*" @change="handleProfilePicChange" hidden multiple/>
+                <button class="btn btn-dark  bg-opacity-50 bg-gradient col-md-4 ms-1 me-1" @click="handleBtnSelectClick">Select File(s)</button>
+                <button class="btn btn-danger  bg-opacity-50 bg-gradient col-md-4 ms-1 me-1" @click="handleSubmitBtnClick">Upload Files</button>
+            </div>
+            <!-- <img src="/background.jpg" alt=""> -->
         </div>
     </div>
 </template>
 
+<script setup>
+import { reactive, ref } from 'vue';
+import { useMenuStore } from '../assets/store';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast()
+
+const menu = useMenuStore()
+const uploadfile = ref()
+const files = reactive({
+    list:[],
+    addFile(file){
+        this.list.push(file)
+    },
+    clearFiles(){
+        this.list = []
+    },
+    removeFile(id){
+        this.list.splice(id,1)
+    }
+})
+
+const handleBtnCloseClick = () => {
+    menu.uploadWindowIsActive = false;
+    files.clearFiles()
+}
+
+const handleBtnSelectClick = () => {
+    uploadfile.value.click()
+}
+
+const handleBtnRemoveFileClick = (e) => {
+    console.log(e.target.id)
+    files.removeFile(e.target.id)
+}
+
+const handleProfilePicChange = () => {
+    const filelist = Array.from(uploadfile.value.files)
+    const storefiles = files.list.map( f => f.name)
+    const newFileList = filelist.filter( file => !storefiles.includes(file.name))
+    console.log(newFileList)
+    newFileList.forEach( f =>  {
+        if(f.type == "image/jpeg" || f.type == "image/png" || f.type == "image/gif" || f.type == "video/mp4"){
+            files.addFile(f)
+        }else{
+            toast.error("Invalid File Type, '" + f.name + "' only images and videos are allowed")
+        }
+    })
+    if(filelist.length != newFileList.length){
+        toast.error('Duplicate File(s)  removed')
+    }
+   
+}
+
+</script>
+
 <style scoped>
 .main{
         position: absolute;
-        display: grid;
         align-items: center;
-        grid-row: 3;
         justify-content: center;
         margin: 0px;
         width: 100%;
         height: 90vh;
-        background: linear-gradient(140deg, #f9f8f8 25%, #ded9d9 50%, #fbfbfb 75%,#e3dcdc 100% );
+        background: linear-gradient(140deg, #cacaca 25%, #bba7a7 50%, #9e8686 75%,#e7a2a2 100% );
         opacity: 0.8;
         border: 1px solid #c3bdbd;
         border-radius: 4px;
         z-index: 1;
+    }
+    .filelist{
+        list-style: none;
     }
 
 </style>
