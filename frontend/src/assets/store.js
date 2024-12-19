@@ -5,6 +5,14 @@ import { useToast } from "vue-toastification"
 const pinia  = createPinia()
 const toast = useToast()
 
+export const useMenuStore = defineStore("menuItem",{
+    state: () => (
+       {
+            uploadWindowIsActive:false
+        }
+    )
+})
+
 export  const useUserStore = defineStore('user',{
     state: () => (
        { 

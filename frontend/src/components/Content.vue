@@ -9,10 +9,10 @@
         </nav>
         <div class="main ">
             <Thumbnail v-for = "file in media.files" :image="file"/>
-            <div class="photos d-none">
+            <div  class="photos d-none">
                 <ViewPhoto/>
             </div>
-            <div class="photos d-none">
+            <div :class= "menu.uploadWindowIsActive ? 'photos d-flex' : 'photos d-none'">
                 <UploadPhoto/>
             </div>
         </div>
@@ -24,11 +24,11 @@
     import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
     import { navigation } from '../assets/store';
-    import { useMediaStore } from '../assets/store';
-    import { useUserStore } from '../assets/store';
+    import { useUserStore,useMenuStore,useMediaStore } from '../assets/store';
 
     const media = useMediaStore();
     const user = useUserStore();
+    const menu = useMenuStore();
     media.setFiles(user.id.toString())
     console.log(media.files);
 </script>
