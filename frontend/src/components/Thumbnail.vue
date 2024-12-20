@@ -3,8 +3,8 @@
         <div class="image">
             <img :src="/images/ + image.name"    alt="" style="width: 100% ;height: 200px;">
             <div class="details">
-                <span>{{ image.name}} </span><br/>
-                <span>{{ image.date_uploaded}}</span>
+                <span>{{imageName}} </span><br/>
+                <span>{{ image.date_uploaded.substring(0,16) }}</span>
             </div>
         </div>
         
@@ -67,6 +67,16 @@
 </style>
 
 <script setup>
+
+import { onBeforeMount } from 'vue';
+
     const props = defineProps(['image'])
-    console.log(props.image)
+    let imageName = props.image.name
+    onBeforeMount(() => {
+        if(props.image.name.length > 20){
+        imageName = props.image.name.substring(0,20) + " ..."
+    }else{
+        imageName = props.image.name
+    }
+    })
 </script>

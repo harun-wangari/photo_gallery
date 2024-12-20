@@ -7,7 +7,7 @@
                 <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
             </ol>
         </nav>
-        <div class="main ">
+        <div :class= "menu.uploadWindowIsActive ? 'main row' : 'main row overflow-y-auto'">
             <Thumbnail v-for = "file in media.files" :image="file"/>
             <div  class="photos d-none">
                 <ViewPhoto/>
@@ -38,10 +38,12 @@
         display: flex;
         position: relative;
         padding: 0;
+        height: 92vh;
     }
     .photos{
         position: absolute;
-        width: 100%;
+        margin-left: 10px;
+        width: 98.5%;
         padding: 5px;
     }
 </style>

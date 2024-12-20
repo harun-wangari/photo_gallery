@@ -1,0 +1,1 @@
+fn(State<Pool<MySql>>, Multipart, axum::Json<FileInfo>) -> impl Future<Output = Result<axum::Json<Vec<FileUploadResponse>>, DataError>> {upload_file}

@@ -33,12 +33,14 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import { useMenuStore } from '../assets/store';
+import { useMenuStore,useUserStore,useMediaStore,navigation } from '../assets/store';
 import { useToast } from 'vue-toastification';
 
 const toast = useToast()
 
 const menu = useMenuStore()
+const user = useUserStore()
+const media = useMediaStore()
 const uploadfile = ref()
 const files = reactive({
     list:[],
@@ -73,7 +75,7 @@ const handleProfilePicChange = () => {
     const newFileList = filelist.filter( file => !storefiles.includes(file.name))
     console.log(newFileList)
     newFileList.forEach( f =>  {
-        if(f.type == "image/jpeg" || f.type == "image/png" || f.type == "image/gif" || f.type == "video/mp4"){
+        if(f.type == "image/jpeg" || "image/png" || "image/gif" ||  "video/mp4" ||"video/mpeg" || "video/ogg" ||  "video/webm"){
             files.addFile(f)
         }else{
             toast.error("Invalid File Type, '" + f.name + "' only images and videos are allowed")
@@ -83,6 +85,44 @@ const handleProfilePicChange = () => {
         toast.error('Duplicate File(s)  removed')
     }
    
+}
+
+const handleSubmitBtnClick = () => {
+
+    const formData = new FormData()
+    if(files.list.length > 0){
+        formData.append("id", user.id)
+        formData.append("album",navigation.album)
+        files.list.forEach( file => {
+            formData.append('files', file)
+        })
+        console.log(formData)
+        fetch("http://localhost:3000/api/upload_files",{
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res)
+        .then(res => {
+            if(res.status == 200){
+                res.json().then(data => {
+                    data.forEach(file => {
+                        media.files.push(file)
+                    })
+                    files.clearFiles()
+                    menu.uploadWindowIsActive = false
+                    toast.success('File(s) uploaded successfully')
+                })
+
+            }else{
+                res.text().then(text => {
+                    files.clearFiles()
+                    toast.error(text)
+                })
+            }
+        })
+    }else{
+        toast.error('No File(s) selected for upload')
+    }
 }
 
 </script>
