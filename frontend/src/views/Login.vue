@@ -2,7 +2,7 @@
     <div class="d-flex  h-100 body">
         <div class="d-flex w-100 h-100  align-items-center justify-content-center  content">
             <div class="col-sm-7 col-md-6 col-lg-5 col-xl-4">
-                <form class="loginform p-2 rounded"   @submit.prevent="onSubmit" style="color: #09203f;background-image: linear-gradient(-225deg,#dfe9f3 0%, #ffffff 100%);background-color: rgba(105, 103, 103, 0.425);">
+                <form class="loginform p-2 rounded bg-info"   @submit.prevent="onSubmit" style="color: #09203f;background-image: linear-gradient(140deg, #cacaca 25%, #bba7a7 50%, #9e8686 75%,#e7a2a2 100% );opacity: 0.7;">
                     <h2 class="h2 mb-5">Log in Form</h2>
                     <div>
                         <label class="text-dark text-opacity-75">Email</label>

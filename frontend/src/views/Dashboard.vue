@@ -1,6 +1,6 @@
 <template>
     
-  <div class="d-flex h-100 w-100">
+  <div class="d-flex h-100 w-100 overflow-hidden">
     <div class="side">
       <Sidebar :menuItems="menu"/>
     </div>
