@@ -93,6 +93,11 @@ const handleSubmitBtnClick = () => {
     if(files.list.length > 0){
         formData.append("id", user.id)
         formData.append("album",navigation.album)
+        if(navigation.album == "all"){
+            formData.append("album","my pics")
+        }else{
+            formData.append("album",navigation.album)
+        }
         files.list.forEach( file => {
             formData.append('files', file)
         })
