@@ -7,9 +7,9 @@
                 <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
             </ol>
         </nav>
-        <div :class= "menu.uploadWindowIsActive ? 'main row' : 'main row overflow-y-auto'">
-            <Thumbnail v-for = "file in media.files" :image="file"/>
-            <div  class="photos d-none">
+        <div :class= "menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive  ? 'main row' : 'main row overflow-y-auto'">
+            <Thumbnail v-for = "file,index in media.activeAlbum" :image="file" :id="index" @dblclick="handleThumbnailDblClick" />
+            <div  :class="menu.viewPhotoWindowIsActive? 'photos' : 'photos d-none'" >
                 <ViewPhoto/>
             </div>
             <div :class= "menu.uploadWindowIsActive ? 'photos d-flex' : 'photos d-none'">
@@ -30,7 +30,15 @@
     const user = useUserStore();
     const menu = useMenuStore();
     media.setFiles(user.id.toString())
-    console.log(media.files);
+
+    const handleThumbnailDblClick = (e) => {
+        menu.viewPhotoWindowIsActive = true;
+        let picture = media.activeAlbum[e.currentTarget.id]
+        Object.assign({},picture,{"index":e.currentTarget.id})
+        media.setPicture(picture);
+    }
+
+
 </script>
 
 <style scoped>

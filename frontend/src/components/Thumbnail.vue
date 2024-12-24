@@ -1,7 +1,7 @@
 <template>
     <div class="thumbnail">
         <div class="image">
-            <img :src="/images/ + image.name"    alt="" style="width: 100% ;height: 200px;">
+            <img :src="/images/ + image.name"    alt="" style="width: 100% ;height: 200px;" >
             <div class="details">
                 <span>{{imageName}} </span><br/>
                 <span>{{ image.date_uploaded.substring(0,16) }}</span>
@@ -79,4 +79,6 @@ import { onBeforeMount } from 'vue';
         imageName = props.image.name
     }
     })
+
+
 </script>
