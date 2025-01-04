@@ -10,6 +10,7 @@ export const useMenuStore = defineStore("menuItem",{
        {
             uploadWindowIsActive:false,
             viewPhotoWindowIsActive:false,
+            category:"",
         }
     )
 })

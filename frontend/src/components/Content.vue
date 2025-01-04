@@ -9,6 +9,7 @@
         </nav>
         <div :class= "menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive  ? 'main row' : 'main row overflow-y-auto'">
             <Thumbnail v-for = "file,index in media.activeAlbum" :image="file" :id="index" @dblclick="handleThumbnailDblClick" />
+            <div class="fs-5 text-center text-white h-50" :class="media.activeAlbum.length > 0 ? 'd-none' : ''">No files Found</div>
             <div  :class="menu.viewPhotoWindowIsActive? 'photos' : 'photos d-none'" >
                 <ViewPhoto/>
             </div>
@@ -34,8 +35,8 @@
     const handleThumbnailDblClick = (e) => {
         menu.viewPhotoWindowIsActive = true;
         let picture = media.activeAlbum[e.currentTarget.id]
-        Object.assign({},picture,{"index":e.currentTarget.id})
-        media.setPicture(picture);
+        let updatePic = Object.assign({},picture,{index:parseInt(e.currentTarget.id)})
+        media.setPicture(updatePic);
     }
 
 

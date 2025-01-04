@@ -65,7 +65,6 @@ const handleBtnSelectClick = () => {
 }
 
 const handleBtnRemoveFileClick = (e) => {
-    console.log(e.target.id)
     files.removeFile(e.target.id)
 }
 
