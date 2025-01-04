@@ -5,11 +5,11 @@
         </div>
         <div class="mainframe row col-lg-12 m-0 h-75">
             <div class="scrollbtn p-1 m-0">
-                <span class="bi bi-caret-left-fill fs-2 scroll"></span>
+                <span class="bi bi-caret-left-fill fs-2 scroll text-danger" :class="currentPic == 0 ? 'text-white' : ''" @click="handlePreviousBtnClick"></span>
             </div>
             <img :src="/images/ + media.picture.name" alt="" class="picture rounded col-xs-10 col-lg-10 m-0">
             <div class="scrollbtn p-1">
-                <span class="bi bi-caret-right-fill fs-2 scroll"></span>
+                <span class="bi bi-caret-right-fill fs-2 scroll text-danger" :class="currentPic == media.activeAlbum.length-1 ? 'text-white' : ''" @click="handleNextBtnClick"></span>
             </div>
         </div>
         <div class="thumbnailframe col-lg-12 h-25">
@@ -27,28 +27,52 @@
 
 <script setup>
     import {useMenuStore,useMediaStore} from '../assets/store';
-    import { onMounted } from 'vue';
+    import {watch} from 'vue';
 
     const menu = useMenuStore();
     const media = useMediaStore();
-    let currentPic = media.picture.index
-    console.log(media.picture)
-    let pictures = [currentPic+1,currentPic+2,currentPic+3]
-    if(media.activeAlbum.length == 0){
-        pictures = []
-    }else if(media.activeAlbum.length < 4){
-        media.activeAlbum.forEach((element,index) => {
-            if(currentPic != index){
-                pictures.push(index)
-            }
-        });
-    }else{
-        pictures = [currentPic+1,currentPic+2,currentPic+3]
-    }
+    let currentPic = -1
+    let pictures = []
 
     const handleCloseBtnClick = () => {
         menu.viewPhotoWindowIsActive = false;
         media.picture.index = -1
+    }
+
+    watch(() => media.picture, (value) => {
+        currentPic = value.index
+        if(media.activeAlbum.length == 0){
+            pictures = []
+        }else if(media.activeAlbum.length < 4){
+            media.activeAlbum.forEach((element,index) => {
+                if(currentPic != index){
+                    pictures.push(index)
+                }
+            });
+        }else if(currentPic > media.activeAlbum.length-4){
+            let count = media.activeAlbum.length - currentPic -1
+            console.log(count)
+        }else{
+            pictures = [currentPic+1,currentPic+2,currentPic+3]
+        }
+    })
+
+    const handlePreviousBtnClick = () => {
+        if(currentPic > 0){
+            currentPic -= 1
+            let picture = media.activeAlbum[currentPic]
+            let updatePic = Object.assign({},picture,{index:currentPic})
+            media.setPicture(updatePic);
+        }
+    }
+
+    const handleNextBtnClick = () => {
+        if(currentPic < media.activeAlbum.length - 1){
+            currentPic += 1
+            let picture = media.activeAlbum[currentPic]
+            let updatePic = Object.assign({},picture,{index:currentPic})
+            media.setPicture(updatePic);
+        }
     }
 
 </script>
@@ -120,7 +144,6 @@
         height: 100%;
         width: 30px;
         top:translate(50,50%);
-        color: rgb(190, 81, 54);
     }
 
     .scroll{

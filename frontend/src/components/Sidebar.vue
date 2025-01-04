@@ -19,9 +19,9 @@
                     <input type="text" class="form-control" placeholder="search files ...">
                 </form>
                 <h5>Categories</h5><hr>
-                <ul class="navbar-nav"> 
-                    <li class="nav-item"><a href="#" class="nav-link text-secondary">Photos</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-secondary">Videos</a></li>
+                <ul class="navbar-nav" @click="handleCategoryClick" > 
+                    <li class="nav-item p-2" :class="menu.category == 'photo' ? 'active' : '' "><a href="#" class="nav-link text-secondary" :class="menu.category == 'photo' ? 'text-white' : ''"  id="photo">Photos</a></li>
+                    <li class="nav-item p-2"  :class="menu.category == 'video' ? 'active' : '' "><a href="#" class="nav-link text-secondary" :class="menu.category == 'video' ? 'text-white' : ''" id="video">Videos</a></li>
                 </ul>
             </div>
             <div class="m-2 w-100 albums-nav" >
@@ -36,14 +36,25 @@
 </template>
 
 <script setup>
-import { useUserStore,useMenuStore } from '../assets/store';
+import { useUserStore,useMenuStore, useMediaStore } from '../assets/store';
 
 const user  = useUserStore();
 const menu = useMenuStore();
+const media = useMediaStore()
 const props = defineProps({menuItems:{type:Array}})
 
 const handleBtnUploadClick = () => {
     menu.uploadWindowIsActive = true;
+}
+
+const handleCategoryClick = (e) => {
+    if(e.target.id == "photo"){
+        menu.category = e.target.id
+    }else if(e.target.id == "video"){
+        menu.category = e.target.id
+    }
+    media.activeAlbum = media.files.filter(file => file.file_type == menu.category)
+    
 }
 </script>
 
@@ -81,6 +92,13 @@ const handleBtnUploadClick = () => {
 .user-info{
     position: relative;
     text-align: center;
+}
+
+.active{
+    background-image: linear-gradient(140deg, #832828 25%, #b98282 50%, #7c4f4f 75%,#fc7575 100% );
+    opacity: 0.7;
+    border-radius: 4px;
+    color: white;
 }
 
 

@@ -25,34 +25,39 @@ pub struct FileInfo {
 
 pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) -> Result<Json<Vec<FileUploadResponse>>, DataError> {  
     let mut uploaded_files : Vec<FileUploadResponse> = Vec::new();
-    // println!("{:?}",FileInfo);
+    let mut  user_id: u32 = 0 ;  // replace with user_id
+    let mut album = "my pics".to_owned();
     while let Some(field) = multipart.next_field().await.map_err(|error|  
         match error{ 
             _ => DataError::QueryError("error while trying to upload file(s)".to_string()),
         })? {
-            let user_id = 1;  // replace with user_id
             let mut file_type = "photo".to_string();
-            if field.name().unwrap() != "files" {
+            let field_name = field.name().unwrap().to_owned(); 
+            if field_name.clone() != "files" {
                 let field_text = field.text().await.unwrap();
-                println!("{:?}",field_text);
+                if field_name.clone() == "id" {
+                    user_id = 1;
+                }else{
+                    album = field_text.clone();
+                }
                 continue;
             }
             let field_name = field.file_name().unwrap().to_string();
             let field_type = field.content_type().unwrap().to_owned();
-            let album = "my_pictures".to_owned();
             let data = field.bytes().await.unwrap();
             if field_type == "image//jpeg" || field_type == "image//png" || field_type == "image//gif" {
                 file_type = "photo".to_owned();
             }else if  field_type == "video//mp4" || field_type == "video//mpeg" || field_type == "video//ogg" || field_type == "video//webm"{
                 file_type = "video".to_owned();
             }
-            let query = sqlx::query!("insert into tb_files (name,user_id,album,file_type) values (?,?,?,?)",field_name,user_id,album,file_type.clone())
+            println!("{}",user_id.to_string());
+            let query = sqlx::query!("insert into tb_files (name,user_id,album,file_type) values (?,?,?,?)",field_name.trim().replace(" ", "_") ,user_id,album,file_type.clone())
             .execute(&db)
             .await
             .map_err(|error|
                 match error {
                     sqlx::Error::Database(e) =>  {
-                        if e.code() == Some(std::borrow::Cow::Borrowed("23000"))  {
+                        if e.to_string().contains("Duplicate entry")   {
                                 DataError::QueryError(format!("image or video with filename '{}' already exists",field_name).to_string())
                           
                         }else{
@@ -64,14 +69,14 @@ pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) ->
             )?;
             uploaded_files.push(FileUploadResponse{
                 id: query.last_insert_id() as u32,
-                name: field_name.clone(),
+                name: field_name.clone().trim().replace(" ", "_"),
                 album: album.clone(),
                 file_type: file_type.clone(),
                 date_uploaded: chrono::Local::now().to_string(),
             });
             let current_path = env::current_dir().unwrap() ;
             let res = Path::new(&current_path).parent().unwrap();
-            let mut file = File::create(res.join("frontend").join("public").join("images").join(field_name.clone())).await
+            let mut file = File::create(res.join("frontend").join("public").join("images").join(field_name.clone().trim().replace(" ", "_"))).await
             .map_err(|_| {
                
                 DataError::QueryError(format!("Error occured while try to save '{}' file",field_name).to_string())
