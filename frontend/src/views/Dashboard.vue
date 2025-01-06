@@ -2,7 +2,7 @@
     
   <div class="d-flex h-100 w-100 overflow-hidden">
     <div class="side">
-      <Sidebar :menuItems="menu"/>
+      <Sidebar/>
     </div>
     <div class="content w-100">
       <Content/>
@@ -14,6 +14,5 @@
 import Sidebar from "../components/Sidebar.vue";
 import Content from "../components/Content.vue";
 
-let menu = ["my pics", "others"]
 </script>
 

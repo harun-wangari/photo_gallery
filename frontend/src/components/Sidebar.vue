@@ -7,7 +7,7 @@
                 </div>
                 <div class="user-info">
                     <p class="text-light m-0">{{user.lastname + " " + user.surname}}</p>
-                    <p class="text-secondary">files 200</p>
+                    <p class="text-secondary">{{media.files.length}} files</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-0 ps-4 pe-4 pb-1">Upload</button>
@@ -20,14 +20,14 @@
                 </form>
                 <h5>Categories</h5><hr>
                 <ul class="navbar-nav" @click="handleCategoryClick" > 
-                    <li class="nav-item p-2" :class="menu.category == 'photo' ? 'active' : '' "><a href="#" class="nav-link text-secondary" :class="menu.category == 'photo' ? 'text-white' : ''"  id="photo">Photos</a></li>
-                    <li class="nav-item p-2"  :class="menu.category == 'video' ? 'active' : '' "><a href="#" class="nav-link text-secondary" :class="menu.category == 'video' ? 'text-white' : ''" id="video">Videos</a></li>
+                    <li class="nav-item m-1 "><a href="#" class="nav-link text-secondary p-2 category" :class="navigation.category == 'photo' ? 'text-white active' : ''"  id="photo">Photos</a></li>
+                    <li class="nav-item m-1 "  ><a href="#" class="nav-link text-secondary p-2 category" :class="navigation.category == 'video' ? 'text-white active' : ''" id="video">Videos</a></li>
                 </ul>
             </div>
-            <div class="m-2 w-100 albums-nav" >
+            <div class="m-2 w-100  albums-nav" >
                 <h5>Albums</h5><hr>
-                <ul class="navbar-nav">
-                    <li v-for="item in menuItems" class="nav-item "><a href="#" class="nav-link text-secondary">{{ item}}</a></li>
+                <ul class="navbar-nav  overflow-y-auto" style="height:calc(100% - 50px)">
+                    <li v-for="item in navigation.allAlbums" class="nav-item "><a href="#" class="nav-link text-secondary"  :class="navigation.album == item ? 'text-white active' : ''" @click="handleAlbumClick">{{ item}}</a></li>
                 </ul>
             </div>
            
@@ -36,25 +36,37 @@
 </template>
 
 <script setup>
-import { useUserStore,useMenuStore, useMediaStore } from '../assets/store';
+import { useUserStore,useMenuStore, useMediaStore,useNavigation } from '../assets/store';
 
 const user  = useUserStore();
 const menu = useMenuStore();
 const media = useMediaStore()
-const props = defineProps({menuItems:{type:Array}})
+const navigation = useNavigation()
 
 const handleBtnUploadClick = () => {
     menu.uploadWindowIsActive = true;
+    if(navigation.album == "all"){
+        navigation.album = navigation.allAlbums[0];
+    }
 }
 
 const handleCategoryClick = (e) => {
-    if(e.target.id == "photo"){
-        menu.category = e.target.id
-    }else if(e.target.id == "video"){
-        menu.category = e.target.id
+    if(!menu.uploadWindowIsActive || !menu.viewPhotoWindowIsActive ){
+        if(e.target.id == "photo"){
+        navigation.category = e.target.id
+        }else if(e.target.id == "video"){
+            navigation.category = e.target.id
+        }
+            media.activeAlbum = media.files.filter(file => file.file_type == navigation.category)
     }
-    media.activeAlbum = media.files.filter(file => file.file_type == menu.category)
-    
+        
+}
+
+const handleAlbumClick = (e) => {
+    if(!menu.uploadWindowIsActive || !menu.viewPhotoWindowIsActive ){
+        navigation.album = e.currentTarget.innerHTML
+        media.setActiveAlbum( media.files.filter((file) => file.album == e.currentTarget.innerHTML && file.file_type == navigation.category))
+    }
 }
 </script>
 
@@ -79,9 +91,10 @@ const handleCategoryClick = (e) => {
 }
 
 .albums-nav{
-    max-height: 100%;
+    height:370px;
+    max-height: 40%;
     padding: 0;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .userpic{
@@ -95,10 +108,17 @@ const handleCategoryClick = (e) => {
 }
 
 .active{
-    background-image: linear-gradient(140deg, #832828 25%, #b98282 50%, #7c4f4f 75%,#fc7575 100% );
+    background-image: linear-gradient(140deg, #a73737 25%, #ec5e5e 50%, #f33f3f 75%,#fc7575 100% );
     opacity: 0.7;
     border-radius: 4px;
     color: white;
+}
+
+.category:hover{
+    background-image: linear-gradient(140deg, #f8f5f5 25%, #a78282 50%, #913f3f 75%,#dfd4d4 100% );
+    opacity: 0.7;
+    border-radius: 4px;
+    color:black !important ;
 }
 
 
