@@ -10,7 +10,6 @@ export const useMenuStore = defineStore("menuItem",{
        {
             uploadWindowIsActive:false,
             viewPhotoWindowIsActive:false,
-            category:"",
         }
     )
 })
@@ -43,7 +42,7 @@ export  const useUserStore = defineStore('user',{
 
 export const useMediaStore = defineStore('media', {
     state: () => ({
-        files: [],
+        files: new Array(),
         picture:{"index":-1},
         activeAlbum:[],
     }),
@@ -63,6 +62,10 @@ export const useMediaStore = defineStore('media', {
                     res.json().then(data => {
                         this.files = data
                         this.activeAlbum = data
+                        const navigation = useNavigation()
+                        let albums = data.map(file => file.album)
+                        let uniqueAlbums = [...new Set(albums)]
+                        navigation.setAlbums(uniqueAlbums)
                     })
                 }else{
                     res.text().then( text => toast.error(text ,{autoClose:1000}))
@@ -85,9 +88,19 @@ export const useMediaStore = defineStore('media', {
 
 
 
-export const navigation = reactive({
-    category:"photos",
-    album:"all"
+export const useNavigation = defineStore('navigation',{
+    state : () => ({
+        category:"photo",
+        album:"all",
+        allAlbums:[],
+    }),
+    actions:{
+        setAlbums(albums){
+            this.allAlbums = albums
+        }
+    }
+
+
 })
 
 

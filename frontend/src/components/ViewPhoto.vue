@@ -3,7 +3,7 @@
         <div class="col-lg-12 flex shadow m-0" style="height: 35px;">
             <span class="bi bi-x-square fs-4 text-danger p-0 m-0" @click="handleCloseBtnClick"></span>
         </div>
-        <div class="mainframe row col-lg-12 m-0 h-75">
+        <div class="mainframe row col-lg-12 m-0 h-75"  :class="!menu.viewPhotoWindowIsActive? 'fade' : ''">
             <div class="scrollbtn p-1 m-0">
                 <span class="bi bi-caret-left-fill fs-2 scroll text-danger" :class="currentPic == 0 ? 'text-white' : ''" @click="handlePreviousBtnClick"></span>
             </div>
@@ -96,7 +96,19 @@
         display: flex;
         height: calc(100% - 80px);
         padding: 10px;
+        translate: 10px 0;
+        animation: easein .5s;
+        animation-timing-function: linear;
     }
+
+    .mainframe.fade{
+        translate: 10px 0;
+        animation: fade .5s;
+        animation-timing-function: linear;
+    }
+
+
+
 
     .picture{
         width: calc(100% - 60px);
@@ -150,5 +162,30 @@
         position: relative;
         top: 45%;
         transform: translate( -50%);
+    }
+
+    
+    @keyframes easein{
+        from{
+            translate: -40px 0;
+            opacity: 0;
+            display: none !important;
+        }
+        to{
+            translate: 10px 0px;
+            opacity: .9;
+            display: flex !important;
+        }
+    }
+
+    @keyframes fade{
+        from{
+            translate: 10px 0px;
+            opacity: 0.9;
+        }
+        to{
+            translate: 60px 0;
+            opacity: 0;
+        }
     }
 </style>

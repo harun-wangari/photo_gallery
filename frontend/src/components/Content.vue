@@ -24,12 +24,12 @@
     import Thumbnail from './Thumbnail.vue';
     import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
-    import { navigation } from '../assets/store';
-    import { useUserStore,useMenuStore,useMediaStore } from '../assets/store';
+    import { useUserStore,useMenuStore,useMediaStore,useNavigation } from '../assets/store';
 
     const media = useMediaStore();
     const user = useUserStore();
     const menu = useMenuStore();
+    const navigation = useNavigation()
     media.setFiles(user.id.toString())
 
     const handleThumbnailDblClick = (e) => {
@@ -55,4 +55,16 @@
         width: 98.5%;
         padding: 5px;
     }
+
+   
+
+    .photos.d-none{
+        display: none;
+        opacity: 0;
+        transition-property: display opacity;
+        transition-duration: 1s;
+        transition-behavior: allow-discrete;
+    }
+
+
 </style>

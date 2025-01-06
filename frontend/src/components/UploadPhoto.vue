@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex row main">+
+    <div class="d-flex row main">
 
-        <div class="col-lg-6 col-md-8 flex p-2 bg-dark rounded border border-danger" style="height: calc(300px + 30vh); box-shadow: 10px 10px 10px#222;">
+        <div class="col-lg-6 col-md-8 flex p-2 bg-dark rounded border border-danger uploadform"  :class= "!menu.uploadWindowIsActive ? 'fade' : ''"  style="height: calc(300px + 30vh); box-shadow: 10px 10px 10px #222;">
             <div class="d-flex  shadow rounded bg-opacity-25 bg-gradient mb-2">
                 <span class="bi bi-x-square fs-4 text-danger p-0 m-0" style="float:right;" @click="handleBtnCloseClick"></span>
             </div>
@@ -21,6 +21,7 @@
                     </div>
                 </div>
             </div>
+            <div class="text-white">Files will be uploaded in '{{navigation.album}}' folder. To change this click on a diffent album</div>
             <div class="row p-2">
                 <input type="file" ref="uploadfile" accept="image/*,video/*" @change="handleProfilePicChange" hidden multiple/>
                 <button class="btn btn-dark  bg-opacity-50 bg-gradient col-md-4 ms-1 me-1" @click="handleBtnSelectClick">Select File(s)</button>
@@ -33,7 +34,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import { useMenuStore,useUserStore,useMediaStore,navigation } from '../assets/store';
+import { useMenuStore,useUserStore,useMediaStore,useNavigation } from '../assets/store';
 import { useToast } from 'vue-toastification';
 
 const toast = useToast()
@@ -41,6 +42,7 @@ const toast = useToast()
 const menu = useMenuStore()
 const user = useUserStore()
 const media = useMediaStore()
+const navigation = useNavigation()
 const uploadfile = ref()
 const files = reactive({
     list:[],
@@ -54,6 +56,8 @@ const files = reactive({
         this.list.splice(id,1)
     }
 })
+
+
 
 const handleBtnCloseClick = () => {
     menu.uploadWindowIsActive = false;
@@ -144,9 +148,49 @@ const handleSubmitBtnClick = () => {
         border: 1px solid #c3bdbd;
         border-radius: 4px;
         z-index: 1;
+        
     }
+
+
     .filelist{
         list-style: none;
     }
+
+    .uploadform{
+        translate: 0 10px;
+        animation: easein .5s;
+        animation-timing-function: linear;
+    }
+
+    .uploadform.fade{
+        animation: fade .5s;
+    }
+
+    @keyframes easein{
+        from{
+            translate: 0 -40px;
+            opacity: 0;
+            display: none !important;
+        }
+        to{
+            translate: 0 10px;
+            opacity: .9;
+            display: flex !important;
+        }
+    }
+
+    @keyframes fade{
+        from{
+            translate: 5px 10px;
+            opacity: 0.9;
+        }
+        to{
+            translate: 0 60px;
+            opacity: 0;
+        }
+    }
+
+
+
 
 </style>
