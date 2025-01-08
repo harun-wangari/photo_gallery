@@ -27,7 +27,7 @@
             <div class="m-2 w-100  albums-nav" >
                 <h5>Albums</h5><hr>
                 <ul class="navbar-nav  overflow-y-auto" style="height:calc(100% - 50px)">
-                    <li v-for="item in navigation.allAlbums" class="nav-item "><a href="#" class="nav-link text-secondary"  :class="navigation.album == item ? 'text-white active' : ''" @click="handleAlbumClick">{{ item}}</a></li>
+                    <li v-for="item in navigation.allAlbums" class="nav-item "><a href="#" class="nav-link text-secondary"  :class="navigation.album == item ? 'text-white active p-sticky-top' : ''" @click="handleAlbumClick">{{ item}}</a></li>
                 </ul>
             </div>
            
@@ -51,19 +51,28 @@ const handleBtnUploadClick = () => {
 }
 
 const handleCategoryClick = (e) => {
-    if(!menu.uploadWindowIsActive || !menu.viewPhotoWindowIsActive ){
+    if (menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive ){
+       
+    }else{
         if(e.target.id == "photo"){
         navigation.category = e.target.id
         }else if(e.target.id == "video"){
             navigation.category = e.target.id
         }
+        if(navigation.album =="all"){
             media.activeAlbum = media.files.filter(file => file.file_type == navigation.category)
+        }else{
+            media.activeAlbum = media.files.filter(file => file.album == navigation.album && file.file_type == navigation.category)
+        }
+
     }
         
 }
 
 const handleAlbumClick = (e) => {
-    if(!menu.uploadWindowIsActive || !menu.viewPhotoWindowIsActive ){
+    if(menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive ){
+      
+    }else{
         navigation.album = e.currentTarget.innerHTML
         media.setActiveAlbum( media.files.filter((file) => file.album == e.currentTarget.innerHTML && file.file_type == navigation.category))
     }

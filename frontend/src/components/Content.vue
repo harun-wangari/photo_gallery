@@ -46,6 +46,7 @@
     .main{
         display: flex;
         position: relative;
+        top: 0;
         padding: 0;
         height: 92vh;
     }
