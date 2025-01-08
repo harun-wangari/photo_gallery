@@ -15,6 +15,7 @@
     .thumbnail{
         position: relative;
         margin: 10px;
+        opacity: .9;
         padding: 5px;
         width: 200px;
         height: 250px;
@@ -24,6 +25,16 @@
         border:  rgb(96, 85, 85) 1px solid;
         border-radius: 5px;
         box-shadow: 2px 2px 5px 3px #636262;
+        animation: fade linear forwards;
+        animation-timeline: view();
+        animation-range: exit 20px ;
+        
+    }
+
+    @keyframes fade {
+        to{
+            opacity: 0;
+        }
         
     }
 
@@ -42,16 +53,19 @@
         border:  rgb(96, 85, 85) 1px solid;
         box-shadow: 2px 2px 5px 3px #636262;
         z-index: -1;
+        opacity: 0;
     }
 
     .thumbnail:hover::after{
         transform: rotate(7deg);
         background-color: #ffffff !important;
+        opacity: .7;
     }
 
     .thumbnail:hover::before{
         transform: rotate(15deg);
         background: #ffffff !important;
+        opacity: .7;
     }
 
     .image{

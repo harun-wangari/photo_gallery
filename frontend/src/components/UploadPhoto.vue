@@ -164,6 +164,7 @@ const handleSubmitBtnClick = () => {
 
     .uploadform.fade{
         animation: fade .5s;
+        animation-timing-function: linear;
     }
 
     @keyframes easein{
@@ -171,22 +172,26 @@ const handleSubmitBtnClick = () => {
             translate: 0 -40px;
             opacity: 0;
             display: none !important;
+            scale: .6;
         }
         to{
             translate: 0 10px;
             opacity: .9;
             display: flex !important;
+            scale: 1;
         }
     }
 
     @keyframes fade{
         from{
-            translate: 5px 10px;
+            translate: 0 10px;
             opacity: 0.9;
+            scale: 1;
         }
         to{
             translate: 0 60px;
             opacity: 0;
+            scale: .6;
         }
     }
 

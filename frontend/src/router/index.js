@@ -3,6 +3,7 @@ import Login from "../views/Login.vue"
 import Signup from "../views/Signup.vue"
 import Dashboard from "../views/Dashboard.vue"
 import {useUserStore} from '../assets/store'
+import TestGround from "../views/TestGround.vue"
 
 const routes = [
     {
@@ -37,6 +38,11 @@ const routes = [
                 router.push("/login")
             }
         }
+    },
+    {
+        path:"/testground",
+        name:"TestGround",
+        component: TestGround,
     }
 ];
 

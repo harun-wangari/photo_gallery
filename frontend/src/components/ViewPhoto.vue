@@ -18,7 +18,7 @@
             </div>
             <div class="thumbnails">
                 <div class="thumbnail h-100" v-for = "picture in pictures">
-                    <img :src="/images/ + media.activeAlbum[picture].name" alt="" class="w-100 h-100" data-toggle="tooltip" data-placement="bottom" delay="0" title="image name">
+                    <img :src="/images/ + media.activeAlbum[picture].name" alt="" class="w-100 h-100 image" data-toggle="tooltip" data-placement="bottom" delay="0" title="image name">
                 </div>
             </div>
         </div>
@@ -107,6 +107,20 @@
         animation-timing-function: linear;
     }
 
+    .image::before{
+        animation: in 1s linear;
+    }
+
+    @keyframes in{
+        from{
+            scale: .6;
+            opacity: 0;
+        }
+        to{
+            scale: 1;
+            opacity: .9;
+        }
+    }
 
 
 
@@ -169,23 +183,25 @@
         from{
             translate: -40px 0;
             opacity: 0;
+            scale: .6;
             display: none !important;
         }
         to{
             translate: 10px 0px;
             opacity: .9;
+            scale: 1;
             display: flex !important;
         }
     }
 
     @keyframes fade{
         from{
-            translate: 10px 0px;
             opacity: 0.9;
+            scale: 1;
         }
         to{
-            translate: 60px 0;
             opacity: 0;
+            scale: 3;
         }
     }
 </style>
