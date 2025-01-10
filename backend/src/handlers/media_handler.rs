@@ -3,7 +3,7 @@ use std::{env, path::Path};
 use serde::{Deserialize, Serialize};
 use sqlx:: MySqlPool;
 use tokio::{fs::File, io::AsyncWriteExt};
-use axum::{extract::{ Multipart, State}, Json};
+use axum::{extract::{ Multipart, State}, Extension, Json};
 
 use super::errors::DataError;
 
@@ -23,9 +23,9 @@ pub struct FileInfo {
     album:String,
 }
 
-pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) -> Result<Json<Vec<FileUploadResponse>>, DataError> {  
-    let mut uploaded_files : Vec<FileUploadResponse> = Vec::new();
-    let mut  user_id: u32 = 0 ;  // replace with user_id
+#[axum::debug_handler]
+pub async fn upload_file(State(db):State<MySqlPool>,Extension(user):Extension<super::user_handler::User>,mut multipart: Multipart) -> Result<Json<Vec<FileUploadResponse>>, DataError> {  
+    let mut uploaded_files : Vec<FileUploadResponse> = Vec::new(); 
     let mut album = "my pics".to_owned();
     while let Some(field) = multipart.next_field().await.map_err(|error|  
         match error{ 
@@ -35,11 +35,8 @@ pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) ->
             let field_name = field.name().unwrap().to_owned(); 
             if field_name.clone() != "files" {
                 let field_text = field.text().await.unwrap();
-                if field_name.clone() == "id" {
-                    user_id = 1;
-                }else{
-                    album = field_text.clone();
-                }
+                album = field_text.clone();
+               
                 continue;
             }
             let field_name = field.file_name().unwrap().to_string();
@@ -50,7 +47,7 @@ pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) ->
             }else if  field_type == "video//mp4" || field_type == "video//mpeg" || field_type == "video//ogg" || field_type == "video//webm"{
                 file_type = "video".to_owned();
             }
-            println!("{}",user_id.to_string());
+            let  user_id: u64 = user.id.unwrap();
             let query = sqlx::query!("insert into tb_files (name,user_id,album,file_type) values (?,?,?,?)",field_name.trim().replace(" ", "_") ,user_id,album,file_type.clone())
             .execute(&db)
             .await
@@ -94,11 +91,6 @@ pub async fn upload_file(State(db):State<MySqlPool>,mut multipart: Multipart) ->
 
 
 #[derive(Deserialize, Serialize)]
-pub struct User{
-    id: String,
-}
-
-#[derive(Deserialize, Serialize)]
 pub struct GetFilesResponse {
     id:u32,
     name:String,
@@ -107,7 +99,7 @@ pub struct GetFilesResponse {
     date_uploaded: String,
 }
 
-pub async fn get_all_files(State(db):State<MySqlPool>,Json(user):Json<User>) -> Result<Json<Vec<GetFilesResponse>>,DataError> {
+pub async fn get_all_files(State(db):State<MySqlPool>,Extension(user):Extension<super::user_handler::User>) -> Result<Json<Vec<GetFilesResponse>>,DataError> {
     let  files = sqlx::query!("SELECT id, name, album, file_type, date_uploaded FROM tb_files WHERE user_id = ?", user.id)
     .fetch_all(&db)
     .await

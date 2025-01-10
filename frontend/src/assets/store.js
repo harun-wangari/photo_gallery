@@ -47,13 +47,14 @@ export const useMediaStore = defineStore('media', {
         activeAlbum:[],
     }),
     actions:{
-        setFiles(user_id){
+        setFiles(){
+            let user = useUserStore()
             fetch("http://localhost:3000/api/get_all_files", {
                 method:"POST",
                 headers: {
                     "Content-Type":"application/json",
-                },
-                body: JSON.stringify({id:user_id})
+                    Authorization:"Bearer " + user.token
+                }
 
             })
             .then(res => res)

@@ -30,7 +30,7 @@
     const user = useUserStore();
     const menu = useMenuStore();
     const navigation = useNavigation()
-    media.setFiles(user.id.toString())
+    media.setFiles()
 
     const handleThumbnailDblClick = (e) => {
         menu.viewPhotoWindowIsActive = true;
