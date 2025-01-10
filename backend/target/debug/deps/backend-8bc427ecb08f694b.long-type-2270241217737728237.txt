@@ -1,0 +1,1 @@
+axum::middleware::FromFn<fn(State<Pool<MySql>>, axum::http::Request<_>, Next) -> impl Future<Output = Result<Response<axum::body::Body>, axum::http::StatusCode>> {guard::<_>}, (), Route, _>

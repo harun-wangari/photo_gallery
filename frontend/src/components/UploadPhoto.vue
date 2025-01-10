@@ -94,7 +94,6 @@ const handleSubmitBtnClick = () => {
 
     const formData = new FormData()
     if(files.list.length > 0){
-        formData.append("id", user.id)
         formData.append("album",navigation.album)
         if(navigation.album == "all"){
             formData.append("album","my pics")
@@ -104,10 +103,14 @@ const handleSubmitBtnClick = () => {
         files.list.forEach( file => {
             formData.append('files', file)
         })
-        console.log(formData)
+        let token = user.token
         fetch("http://localhost:3000/api/upload_files",{
             method: 'POST',
-            body: formData
+            body: formData,
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer " + token
+            }
         })
         .then(res => res)
         .then(res => {

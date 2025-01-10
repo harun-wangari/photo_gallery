@@ -1,4 +1,4 @@
-use axum::{extract::State, Json};
+use axum::{extract::State, http::StatusCode, Json};
 use sqlx::{ FromRow, MySqlPool};
 use serde::{Serialize,Deserialize};
 use crate::utils::jwt::create_jwt;
@@ -7,15 +7,15 @@ use super::errors::DataError;
 
 
 
-#[derive(Serialize,Deserialize,FromRow)]
+#[derive(Serialize,Deserialize,FromRow,Clone)]
 pub struct User{
-    id:Option<u64>,
-    surname:String,
-    lastname:String,
-    email: String,
-    password: String,
-    photo: String,
-    token:Option<String>,
+    pub id:Option<u64>,
+    pub surname:String,
+    pub lastname:String,
+    pub email: String,
+    pub password: String,
+    pub photo: String,
+    pub token:Option<String>,
 }
 
 #[derive(Serialize,Deserialize)]
@@ -39,6 +39,8 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
     let verify = bcrypt::verify(body.password, &user.password)?;
 
     if verify {
+        let token  = create_jwt(user.id.clone() as u64)
+        .unwrap();
         Ok(Json(
             User{
                 id:Some(user.id.clone() as u64),
@@ -47,7 +49,7 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
                 email: user.email.clone(),
                 password: "".to_string(),
                 photo: user.photo.clone(),
-                token:Some(user.token.clone()),
+                token:Some(token),
             }
         ))
     }else{
@@ -58,15 +60,13 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
 pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> Result<String,DataError>{
 
     let hashed_password = bcrypt::hash(body.password,14).unwrap();
-    let token = create_jwt().unwrap();
     // let email = &body.email;
-    sqlx::query("INSERT INTO tb_files (surname,lastname,email,password,photo,token) VALUES (?,?,?,?,?,?)")
+    sqlx::query("INSERT INTO tb_files (surname,lastname,email,password,photo) VALUES (?,?,?,?,?)")
     .bind(&body.surname)
     .bind(&body.lastname)
     .bind(&body.email)
     .bind(hashed_password)
     .bind(body.photo)
-    .bind(token)
     .execute(&db)
     .await
     .map_err(|error|

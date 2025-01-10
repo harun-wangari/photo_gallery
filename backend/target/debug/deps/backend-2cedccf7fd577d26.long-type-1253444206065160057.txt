@@ -1,0 +1,1 @@
+for<'a, 'b, 'c> fn(&'a str, &'b DecodingKey, &'c Validation) -> Result<TokenData<_>, jsonwebtoken::errors::Error> {jsonwebtoken::decode::<_>}
