@@ -10,8 +10,11 @@
                     <p class="text-secondary">{{media.files.length}} files</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-0 ps-4 pe-4 pb-1">Upload</button>
-                </div>
+                    <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-1 ps-4 pe-4 pb-1 m-1">Upload</button>
+                    <button type="button" @click="handleBtnLogoutClick" class="btn btn-logout p-0 ps-4 pe-4 pb-1 m-1 border border-dark" title="Logout" >
+                        <span class="bi-box-arrow-right fs-5 text-white p-0" style="background: transparent"></span>
+                    </button>
+                </div> 
                 
             </div>
             <div class="m-2">
@@ -37,6 +40,7 @@
 
 <script setup>
 import { useUserStore,useMenuStore, useMediaStore,useNavigation } from '../assets/store';
+import  router  from '../router'
 
 const user  = useUserStore();
 const menu = useMenuStore();
@@ -77,6 +81,13 @@ const handleAlbumClick = (e) => {
         media.setActiveAlbum( media.files.filter((file) => file.album == e.currentTarget.innerHTML && file.file_type == navigation.category))
     }
 }
+
+const handleBtnLogoutClick = () => {
+    user.setUser({id:0});
+    localStorage.removeItem("token")
+    router.push("/login")
+}
+
 </script>
 
 <style scoped>
@@ -128,6 +139,10 @@ const handleAlbumClick = (e) => {
     opacity: 0.7;
     border-radius: 4px;
     color:black !important ;
+}
+
+.btn-logout{
+    background: linear-gradient(140deg, #030303 25%, #613030 50%, #ec6161 75%,#312d2d 100% )
 }
 
 
