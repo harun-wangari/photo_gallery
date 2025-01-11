@@ -34,7 +34,7 @@ where
                 email: query.email.clone(),
                 password: "".to_string(),
                 photo: query.photo.clone(),
-                token:Some(query.token.clone()),
+                token:Some(token.clone()),
             };
             
             req.extensions_mut().insert(user);

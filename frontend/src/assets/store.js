@@ -49,30 +49,31 @@ export const useMediaStore = defineStore('media', {
     actions:{
         setFiles(){
             let user = useUserStore()
-            fetch("http://localhost:3000/api/get_all_files", {
-                method:"POST",
-                headers: {
+            const token = user.token
+            if(token){
+                fetch("http://localhost:3000/api/get_all_files", {
+                    method:"POST",
+                    headers: {
                     "Content-Type":"application/json",
                     Authorization:"Bearer " + user.token
                 }
 
-            })
-            .then(res => res)
-            .then(res => {
-                if (res.status  == 200) {
-                    res.json().then(data => {
-                        this.files = data
-                        this.activeAlbum = data
-                        const navigation = useNavigation()
-                        let albums = data.map(file => file.album)
-                        let uniqueAlbums = [...new Set(albums)]
-                        navigation.setAlbums(uniqueAlbums)
-                    })
-                }else{
-                    res.text().then( text => toast.error(text ,{autoClose:1000}))
-                }
-            })
-        },
+                })
+                .then(res => res)
+                .then(res => {
+                    if (res.status  == 200) {
+                        res.json().then(data => {
+                            this.files = data
+                            this.activeAlbum = data
+                            const navigation = useNavigation()
+                            let albums = data.map(file => file.album)
+                            let uniqueAlbums = [...new Set(albums)]
+                            navigation.setAlbums(uniqueAlbums)
+                        })
+                    }
+                })
+            }
+    },
         setPicture(pic){
             this.picture = pic
         },

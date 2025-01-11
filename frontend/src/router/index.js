@@ -2,8 +2,11 @@ import {createRouter,createWebHistory} from "vue-router"
 import Login from "../views/Login.vue"
 import Signup from "../views/Signup.vue"
 import Dashboard from "../views/Dashboard.vue"
-import {useUserStore} from '../assets/store'
+import pinia,{useUserStore} from '../assets/store'
 import TestGround from "../views/TestGround.vue"
+import { setActivePinia } from "pinia"
+
+setActivePinia(pinia)
 
 const routes = [
     {
@@ -11,8 +14,8 @@ const routes = [
         name:"Login",
         component: Login,
         beforeEnter: (to,from) => {
-            const user = useUserStore()
-            if(user.isLoggedIn){
+            const token = localStorage.getItem('token')
+            if(token){
                 router.push("/dashboard")
             }
         }
@@ -22,8 +25,8 @@ const routes = [
         name:"Signup",
         component: Signup,
         beforeEnter: (to,from) => {
-            const user = useUserStore()
-            if(user.isLoggedIn){
+            const token = localStorage.getItem('token')
+            if(token){
                 router.push("/login")
             }
         }
@@ -33,8 +36,8 @@ const routes = [
         name:"Dashboard",
         component: Dashboard,
         beforeEnter: (to,from) => {
-            const user = useUserStore()
-            if(!user.isLoggedIn){
+            const token = localStorage.getItem('token')
+            if(!token){
                 router.push("/login")
             }
         }

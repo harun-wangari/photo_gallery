@@ -89,8 +89,8 @@ const onSubmit = handleSubmit ((data) => {
             state.isProcessing = false
             if(res.status==200) {
                 res.json().then(data => {
-                    user.setUser({id:data.id,surname:data.surname,lastname:data.lastname,email:data.email,photo:data.photo,token:data.token,isLoggedIn:true})
-                    console.log(user.isLoggedIn)
+                    user.setUser({id:data.id,surname:data.surname,lastname:data.lastname,email:data.email,photo:data.photo,token:data.token})
+                    localStorage.setItem("token",data.token)
                     router.push('/dashboard')
                     toast.success("Log in successfull, Welcome " + user.surname)
                 })
