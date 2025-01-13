@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex row main">
 
-        <div class="col-lg-6 col-md-8 flex p-2 bg-dark rounded border border-danger uploadform"  :class= "!menu.uploadWindowIsActive ? 'fade' : ''"  style="height: calc(300px + 30vh); box-shadow: 10px 10px 10px #222;">
+        <div class="col-lg-6 col-md-8 flex p-2 bg-dark rounded  uploadform"  :class= "!menu.uploadWindowIsActive ? 'fade' : ''">
             <div class="d-flex  shadow rounded bg-opacity-25 bg-gradient mb-2">
                 <span class="bi bi-x-square fs-4 text-danger p-0 m-0" style="float:right;" @click="handleBtnCloseClick"></span>
             </div>
@@ -146,8 +146,8 @@ const handleSubmitBtnClick = () => {
         margin: 0px;
         width: 100%;
         height: 90vh;
-        background: linear-gradient(140deg, #cacaca 25%, #bba7a7 50%, #9e8686 75%,#e7a2a2 100% );
-        opacity: 0.8;
+        background: linear-gradient(140deg, #444343 25%, #3b3939 50%, #413e3e 75%,#e7a2a2 100% );
+        opacity: .95;
         border: 1px solid #c3bdbd;
         border-radius: 4px;
         z-index: 1;
@@ -160,9 +160,11 @@ const handleSubmitBtnClick = () => {
     }
 
     .uploadform{
+        height: calc(300px + 30vh);
         translate: 0 10px;
         animation: easein .5s;
         animation-timing-function: linear;
+        box-shadow: 2px 2px rgb(105, 104, 104);
     }
 
     .uploadform.fade{

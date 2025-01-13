@@ -85,7 +85,7 @@
         margin: 0px;
         width: 100%;
         height: 100%;
-        background-color: #09203f;background-image: linear-gradient(140deg, #ffffff 25%, #b6a9a9 50%, #645353 75%,#312d2d 100% );opacity: 0.7;
+        background-color: #09203f;background-image: linear-gradient(140deg, #302f2f 25%, #4d4747 50%, #645353 75%,#312d2d 100% );
         opacity: 0.95;
         border: 1px solid #c3bdbd;
         border-radius: 4px;
