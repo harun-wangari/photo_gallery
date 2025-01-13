@@ -1,7 +1,7 @@
 
 <template>
-    <div style="position: relative;height:100vh" class="">
-        <nav aria-label="breadcrumb" class=" bg-danger bg-opacity-75 bg-gradient" style="width: 100%;">
+    <div style="position: relative;height:100vh" class="container">
+        <nav aria-label="breadcrumb"  style="width: 100%;">
             <ol class="breadcrumb shadow p-2">
                 <li class="breadcrumb-item"><a href="#" class="text-dark text-decoration-none ">{{navigation.category}}</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
@@ -43,12 +43,22 @@
 </script>
 
 <style scoped>
+.container{
+    position: relative;
+    margin: 0;
+    background: rgb(46, 45, 45);
+    opacity: .95;
+}
     .main{
         display: flex;
         position: relative;
         top: 0;
         padding: 0;
         height: 92vh;
+        animation: enter 1s linear;
+    }
+    .breadcrumb{
+        background-image: linear-gradient(180deg,#e42929 0%, #373838 100%);
     }
     .photos{
         position: absolute;
@@ -65,6 +75,17 @@
         transition-property: display opacity;
         transition-duration: 1s;
         transition-behavior: allow-discrete;
+    }
+
+    @keyframes enter {
+        from{
+        top:-20px;
+
+        }
+        to{
+            top:0;
+        }
+        
     }
 
 

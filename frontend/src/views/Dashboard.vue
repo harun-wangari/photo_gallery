@@ -4,11 +4,17 @@
     <div class="side">
       <Sidebar/>
     </div>
-    <div class="content w-100">
+    <div class="con-content w-100">
       <Content/>
     </div>
   </div>
 </template>
+
+<style>
+.con-content{
+  background-image: url("/background1.jpg");
+}
+</style>
 
 <script setup>
 import Sidebar from "../components/Sidebar.vue";

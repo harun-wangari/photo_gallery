@@ -10,7 +10,7 @@
                     <p class="text-secondary">{{media.files.length}} files</p>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
-                    <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-1 ps-4 pe-4 pb-1 m-1">Upload</button>
+                    <button type="button" @click="handleBtnUploadClick" class="btn btn-danger p-1 ps-4 pe-4 pb-1 m-1 btnupload">Upload</button>
                     <button type="button" @click="handleBtnLogoutClick" class="btn btn-logout p-0 ps-4 pe-4 pb-1 m-1 border border-dark" title="Logout" >
                         <span class="bi-box-arrow-right fs-5 text-white p-0" style="background: transparent"></span>
                     </button>
@@ -125,6 +125,11 @@ const handleBtnLogoutClick = () => {
 .user-info{
     position: relative;
     text-align: center;
+}
+
+.btnupload{
+    background-image: linear-gradient(135deg,#e42929 0%, #373838 100%);
+    border: none;
 }
 
 .active{
