@@ -2,10 +2,10 @@
     <div class="d-flex  h-100 body">
         <div class="d-flex w-100 h-100  align-items-center justify-content-center  content">
             <div class="col-sm-7 col-md-6 col-lg-5 col-xl-4">
-                <form class="loginform p-2 rounded bg-info"   @submit.prevent="onSubmit" style="color: #09203f;background-image: linear-gradient(140deg, #cacaca 25%, #bba7a7 50%, #9e8686 75%,#e7a2a2 100% );opacity: 0.7;">
-                    <h2 class="h2 mb-5">Log in Form</h2>
+                <form class="loginform p-2 rounded bg-info"   @submit.prevent="onSubmit">
+                    <h2 class="h2 mb-5 text-white">Log in Form</h2>
                     <div>
-                        <label class="text-dark text-opacity-75">Email</label>
+                        <label class="text-white">Email</label>
                         <div class="inputs d-flex border border-dark-subtle rounded">
                             <i class="fs-4 text-danger pe-3 ps-3 bi-envelope-at"></i>
                             <input type="email" v-model="email" class="form-control shadow-none border border-none" />
@@ -13,7 +13,7 @@
                         <p class="text-danger ps-3 pe-3" style="font-size: 14px;" >{{ errors.email}}</p>
                     </div>
                     <div>
-                        <label class="text-dark text-opacity-75">Password</label>
+                        <label class="text-white">Password</label>
                         <div class="inputs d-flex  border border-dark-subtle rounded">
                             <i class="fs-4 text-danger pe-3 ps-3 bi-lock"></i>
                             <input type="password" v-model="password" class="form-control shadow-none border border-none">
@@ -21,12 +21,14 @@
                         <p class="text-danger ps-3 pe-3" style="font-size: 14px;">{{ errors.password }}</p>
                     </div>
                     <div>
-                        <div class="d-flex mt-4 mb-4 " v-if="state.isProcessing == false">
-                            <input type="submit" value="Log In"   class="form-control text-white bg-danger bg-gradient bg-opacity-75" style="background-image: linear-gradient(135deg,#9be15d 0%, #00e3ae 100%)"/>
+                        <div class="d-flex mt-1 mb-2 con-login"  :class="state.isProcessing == true ? 'fade' : ''">
+                            <input type="submit" value="Log In"  class="form-control  btnlogin" />
                         </div>
-                        <div class=" text-center bg-transparent mt-4 mb-4 " v-if="state.isProcessing == true">
-                            <span class="pd-3">Processing.. </span><span class="spinner-grow text-danger text-opacity-70 text-gradient pt-3"></span>
+                        <div class=" text-center bg-transparent mt-1 mb-1 spinner bg-info"  :class="state.isProcessing == false? 'fade' : ''">
+                            <span class="pd-3 text-white">Processing.. </span><span class=" spinner-grow text-danger text-gradient pt-3"></span>
                         </div>
+                        <p class="text-white resetPassword"><span class="text-danger">Forgot Password? </span>Reset password</p>
+                        <p class="text-white createAccount" @click="btnCreateAccount"><span class="text-danger">Don't have an account? </span>Create Account</p>
                     </div>
 
                 </form>
@@ -36,9 +38,78 @@
 </template>
 
 <style>
-.inputs:has(input:focus){
-    box-shadow: 2px 2px 2px 1px rgb(58, 58, 58) !important;
+.loginform{
+    background-image: linear-gradient(140deg, #1b1717 25%, #332a2a 50%, #492424 75%,#750202 100% );
+    opacity: 0.9;
 }
+
+.con-login{
+    position: relative;
+    animation: enter .2s;
+    z-index: 2;
+}
+
+.inputs:has(input:focus){
+    box-shadow: 3px 2px  rgb(107, 104, 104) !important;
+}
+
+.btnlogin{
+    background-image: linear-gradient(135deg,#f8f8f7 0%, #373838 100%);
+    box-shadow: 2px 1px  rgb(238, 116, 116);
+    border: none !important;
+    color: black !important;
+    font-weight: bolder !important;
+}
+
+.btnlogin:hover{
+    background-image: linear-gradient(135deg,#e42929 0%, #373838 100%);
+    color: white !important;
+    box-shadow: 2px 1px  rgb(255, 254, 254);
+}
+
+.spinner{
+    animation: enter .2s ;
+    position: relative;
+    top: -20px;
+    z-index: 1;
+}
+
+.fade{
+    animation: fade .2s forwards;
+}
+
+@keyframes enter {
+    from {
+        display: none;
+        opacity: 0;
+        top: -20px;
+    }
+
+    to{
+        display: block;
+        opacity: 0.9;
+        top: 0px;
+    }
+}
+
+@keyframes fade {
+   from{
+        display: block;
+        opacity: 0.9;
+        top: 0px;
+    }
+    to {
+        display: none;
+        opacity: 0;
+        top: 20px;
+    }
+}
+
+.createAccount:hover,.resetPassword:hover{
+    scale: 1.01;
+    cursor: pointer;
+}
+
 </style>
 
 <script setup>
@@ -102,6 +173,10 @@ const onSubmit = handleSubmit ((data) => {
             }
         })
     })
+
+    const btnCreateAccount = (e) => {
+        router.push("/signup")
+    }
 
     watch(
         () => errors.value,

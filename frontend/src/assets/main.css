@@ -1,13 +1,13 @@
 .body{
-    background-image: url("../../public/background.jpg");
+    background-image: url("../../public/background1.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: #222;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
 .content{
-    background-color: rgba(22, 22, 22, 0.9);
+    background:  linear-gradient(180deg, #e63232 25%, #963232 50%, #8f2b2b 75%,#4b1717 100% ); 
+    opacity: .95;
 }
 
 
