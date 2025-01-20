@@ -27,7 +27,6 @@
                 <button class="btn btn-dark  bg-opacity-50 bg-gradient col-md-4 ms-1 me-1" @click="handleBtnSelectClick">Select File(s)</button>
                 <button class="btn btn-danger  bg-opacity-50 bg-gradient col-md-4 ms-1 me-1" @click="handleSubmitBtnClick">Upload Files</button>
             </div>
-            <!-- <img src="/background.jpg" alt=""> -->
         </div>
     </div>
 </template>
@@ -36,6 +35,7 @@
 import { reactive, ref } from 'vue';
 import { useMenuStore,useUserStore,useMediaStore,useNavigation } from '../assets/store';
 import { useToast } from 'vue-toastification';
+import Swal from 'sweetalert2' ;
 
 const toast = useToast()
 
@@ -81,7 +81,13 @@ const handleProfilePicChange = () => {
         if(f.type == "image/jpeg" || "image/png" || "image/gif" ||  "video/mp4" ||"video/mpeg" || "video/ogg" ||  "video/webm"){
             files.addFile(f)
         }else{
-            toast.error("Invalid File Type, '" + f.name + "' only images and videos are allowed")
+            Swal.fire({
+                icon:"warning",
+                text:"Invalid File Type, '" + f.name + "' only images and videos are allowed",
+                confirmButtonColor: 'red',
+                animation: true,
+                timer:'2000'
+            })
         }
     })
     if(filelist.length != newFileList.length){
@@ -97,8 +103,6 @@ const handleSubmitBtnClick = () => {
         formData.append("album",navigation.album)
         if(navigation.album == "all"){
             formData.append("album","my pics")
-        }else{
-            formData.append("album",navigation.album)
         }
         files.list.forEach( file => {
             formData.append('files', file)
@@ -108,7 +112,6 @@ const handleSubmitBtnClick = () => {
             method: 'POST',
             body: formData,
             headers:{
-                "Content-Type":"application/json",
                 "Authorization":"Bearer " + token
             }
         })
@@ -121,18 +124,36 @@ const handleSubmitBtnClick = () => {
                     })
                     files.clearFiles()
                     menu.uploadWindowIsActive = false
-                    toast.success('File(s) uploaded successfully')
+                    Swal.fire({
+                        icon:"success",
+                        text:"File(s) uploaded successfully",
+                        confirmButtonColor: 'red',
+                        animation: true,
+                        timer:'2000'
+                    })
                 })
 
             }else{
                 res.text().then(text => {
                     files.clearFiles()
-                    toast.error(text)
+                    Swal.fire({
+                        icon:"error",
+                        text:text,
+                        confirmButtonColor: 'red',
+                        animation: true,
+                        timer:'2000'
+                    })
                 })
             }
         })
     }else{
-        toast.error('No File(s) selected for upload')
+        Swal.fire({
+            icon:"warning",
+            text:"No File(s) selected for upload",
+            confirmButtonColor: 'red',
+            animation: true,
+            timer:'2000'
+        })
     }
 }
 
