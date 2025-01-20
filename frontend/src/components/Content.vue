@@ -24,6 +24,7 @@
     import Thumbnail from './Thumbnail.vue';
     import UploadPhoto from './UploadPhoto.vue';
     import ViewPhoto from './ViewPhoto.vue';
+    // import MessageBox from 'vue-msgbox';
     import { useUserStore,useMenuStore,useMediaStore,useNavigation } from '../assets/store';
 
     const media = useMediaStore();

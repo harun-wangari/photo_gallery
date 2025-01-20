@@ -5,6 +5,7 @@ import Dashboard from "../views/Dashboard.vue"
 import pinia,{useUserStore} from '../assets/store'
 import TestGround from "../views/TestGround.vue"
 import { setActivePinia } from "pinia"
+import PasswordRecover from "../views/PasswordRecover.vue"
 
 setActivePinia(pinia)
 
@@ -39,6 +40,17 @@ const routes = [
             const token = localStorage.getItem('token')
             if(!token){
                 router.push("/login")
+            }
+        }
+    },
+    {
+        path:"/recoverpassword",
+        name:"RecoverPassword",
+        component: PasswordRecover,
+        beforeEnter: (to,from) => {
+            const token = localStorage.getItem('token')
+            if(token){
+                router.push("/dashboard")
             }
         }
     },

@@ -41,6 +41,7 @@
 <script setup>
 import { useUserStore,useMenuStore, useMediaStore,useNavigation } from '../assets/store';
 import  router  from '../router'
+import Swal from 'sweetalert2';
 
 const user  = useUserStore();
 const menu = useMenuStore();
@@ -83,9 +84,24 @@ const handleAlbumClick = (e) => {
 }
 
 const handleBtnLogoutClick = () => {
-    user.setUser({id:0});
-    localStorage.removeItem("token")
-    router.push("/login")
+    Swal.fire({
+        icon:"question",
+        iconColor:"#e42929",
+        text:"Are you sure you want to log out?",
+        confirmButtonColor: '#e42929',
+        showCancelButton: true,
+        confirmButtonText: "Log out",
+        cancelButtonText: "Cancel",
+        cancelButtonColor:'#222',
+        animation: true,
+    })
+    .then(res => {
+        if(res.isConfirmed){
+            user.setUser({id:0});
+            localStorage.removeItem("token")
+            router.push("/login")
+        }
+    })
 }
 
 </script>

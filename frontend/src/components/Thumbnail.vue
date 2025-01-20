@@ -25,7 +25,7 @@
         border:  rgb(96, 85, 85) 1px solid;
         border-radius: 5px;
         box-shadow: 2px 2px 5px 3px #636262;
-        animation: fade enter 1s linear forwards;
+        animation: fade linear forwards;
         animation-timeline: view();
         animation-range: exit 20px ;
         
