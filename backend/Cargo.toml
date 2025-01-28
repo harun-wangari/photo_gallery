@@ -18,4 +18,6 @@ bcrypt = "0.15.1"
 dotenvy_macro = "0.15.7"
 thiserror = "2.0.2"
 tracing = "0.1.40"
+lettre = "0.11.11"
+lettre_email = "0.9.4"
 

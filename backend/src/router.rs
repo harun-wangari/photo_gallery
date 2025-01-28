@@ -1,4 +1,4 @@
-use crate::handlers::user_handler::{user_login,create_user};
+use crate::handlers::user_handler::{create_user, send_reset_email, user_login};
 use crate::handlers::media_handler::{get_all_files, upload_file};
 use crate::handlers::verify_token_handler::verify_token;
 use crate::utils::guard::guard;
@@ -20,6 +20,7 @@ pub fn create_router(database:Pool<MySql>) -> Router {
     .route_layer(middleware::from_fn_with_state(database.clone(),guard))
     .route("/api/login",post(user_login ))
     .route("/api/create_user",post(create_user))
+    .route("/api/recover_password",post(send_reset_email))
     .with_state(database)
     .layer(cors)
 }

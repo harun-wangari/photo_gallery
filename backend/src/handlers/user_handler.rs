@@ -3,6 +3,7 @@ use sqlx::{ FromRow, MySqlPool};
 use serde::{Serialize,Deserialize};
 use crate::utils::jwt::create_jwt;
 use super::errors::DataError;
+use super::email_handler::send_email;
 
 
 
@@ -10,7 +11,7 @@ use super::errors::DataError;
 #[derive(Serialize,Deserialize,FromRow,Clone)]
 pub struct User{
     pub id:Option<u64>,
-    pub surname:String,
+    pub firstname:String,
     pub lastname:String,
     pub email: String,
     pub password: String,
@@ -44,7 +45,7 @@ pub async fn user_login(State(db):State<MySqlPool>,Json(body):Json<Body>) -> Res
         Ok(Json(
             User{
                 id:Some(user.id.clone() as u64),
-                surname: user.surname.clone(),
+                firstname: user.firstname.clone(),
                 lastname: user.lastname.clone(),
                 email: user.email.clone(),
                 password: "".to_string(),
@@ -61,8 +62,8 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
 
     let hashed_password = bcrypt::hash(body.password,14).unwrap();
     // let email = &body.email;
-    sqlx::query("INSERT INTO tb_files (surname,lastname,email,password,photo) VALUES (?,?,?,?,?)")
-    .bind(&body.surname)
+    sqlx::query("INSERT INTO tb_users (firstname,lastname,email,password,photo) VALUES (?,?,?,?,?)")
+    .bind(&body.firstname)
     .bind(&body.lastname)
     .bind(&body.email)
     .bind(hashed_password)
@@ -76,7 +77,7 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
                         DataError::QueryError("Email is already registered".to_string())
                   
                 }else{
-                   DataError::QueryError("some thing went wrong while executing the query".to_owned()) 
+                   DataError::QueryError(e.to_string() )  //"some thing went wrong while executing the query".to_owned()) 
                 }
             },
             _ =>  DataError::QueryError("some thing when wrong".to_owned())     
@@ -85,4 +86,30 @@ pub async fn create_user(State(db): State<MySqlPool>,Json(body):Json<User>) -> R
 
     Ok("User has been registered successfully".to_owned(),)  
 
+}
+
+#[derive(Serialize,Deserialize)]
+pub struct ResetInfo{
+    email: String,
+}
+
+pub async fn send_reset_email(State(db):State<MySqlPool>,Json(body):Json<ResetInfo>) -> Result<StatusCode,(StatusCode,String)>{
+    let result = sqlx::query!("SELECT email from tb_users WHERE email = ?", body.email)
+    .fetch_one(&db)
+    .await;
+
+    match result{
+        Ok(record) => {
+            println!("{:?}",record);
+            let message : String =  "message".to_string();
+            let subject : String =  "subject".to_string();
+            let is_email_sent = send_email(body.email,message,subject).await;
+            match is_email_sent{
+                Ok(_) => Ok(StatusCode::OK),
+                Err(e) => Err((StatusCode::BAD_REQUEST,e.to_string()))
+            }
+          
+        },
+        Err(e) => Err((StatusCode::BAD_REQUEST,e.to_string()))
+    }
 }

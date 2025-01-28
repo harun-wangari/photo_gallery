@@ -8,9 +8,9 @@
                         <div>
                             <div class="m-1">
                                 <label class="text-white">Surname</label>
-                                <input type="text" v-model="surname" class="input form-control shadow-none border border-none" />
+                                <input type="text" v-model="firstname" class="input form-control shadow-none border border-none" />
                             </div>
-                            <p class="text-danger ps-3 pe-3" style="font-size: 14px;" >{{ errors.surname}}</p>
+                            <p class="text-danger ps-3 pe-3" style="font-size: 14px;" >{{ errors.firstname}}</p>
                         </div>
                         <div>
                             <div class="m-1">
@@ -93,7 +93,7 @@ const toast = useToast()
 
 const formSchema = toTypedSchema( 
     object({
-        surname:string().min(1,{message:'Surname is required'}).min(3,{message:'Surname should be at least 3 characters'}),
+        firstname:string().min(1,{message:'firstname is required'}).min(3,{message:'firstname should be at least 3 characters'}),
         lastname:string().min(1,{message:'Lastname is required'}).min(3,{message:'Lastname should be at least 3 characters'}),
         email:string().min(1,{message:'email is required'}).email({message:'invalid email'}),
         password:string().min(1,{message:'password is required'}).min(4,{message:'password too short'}),
@@ -111,7 +111,7 @@ const {handleSubmit, errors, defineField} = useForm({
 });
 
 
-const {value: surname} = useField('surname')
+const {value: firstname} = useField('firstname')
 const {value: lastname} = useField('lastname')
 const {value: email} = useField('email')
 const {value: password} = useField('password')
@@ -127,7 +127,7 @@ const onSubmit = handleSubmit ((data) => {
                 "Content-Type":"application/json",
             },
             body:JSON.stringify({
-                surname: data.surname.charAt(0).toUpperCase() + data.surname.slice(1).toLowerCase(),  //capitalize first letter only
+                firstname: data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1).toLowerCase(),  //capitalize first letter only
                 lastname:data.lastname.charAt(0).toUpperCase() + data.lastname.slice(1).toLowerCase(), //capitalize first letter only
                 email:data.email.toLowerCase(),
                 password:data.password,

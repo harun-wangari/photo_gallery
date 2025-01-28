@@ -106,12 +106,13 @@
 
 <script setup>
 import { reactive, watch } from "vue";
-import {object,promise,string} from "zod";
+import {object,string} from "zod";
 import {useToast} from "vue-toastification";
 import router from "../router/index.js";
 import {useForm, useField} from "vee-validate";
 import {toTypedSchema} from "@vee-validate/zod";
 import { useUserStore } from "../assets/store.js";
+import Swal from "sweetalert2";
 
 const toast = useToast()
 const user = useUserStore()
@@ -151,9 +152,17 @@ const onSubmit = handleSubmit ((data) => {
                         text:"An email was sent to your email with password reset instructions",
                         confirmButtonColor: 'red',
                         animation: true,
-                        timer:'2000'
+                        timer:'5000'
                     })
                     router.push('/login')
+                })
+            }else{
+                Swal.fire({
+                    icon:"error",
+                    text:"something when wrong when trying to send email... please check your email address and tgry again",
+                    confirmButtonColor: 'red',
+                    animation: true,
+                    timer:'5000'
                 })
             }
         })

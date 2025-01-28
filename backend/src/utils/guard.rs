@@ -29,7 +29,7 @@ where
             .map_err(|_| StatusCode::UNAUTHORIZED)?;
             let user =  User{
                 id:Some(query.id.clone() as u64),
-                surname: query.surname.clone(),
+                firstname: query.firstname.clone(),
                 lastname: query.lastname.clone(),
                 email: query.email.clone(),
                 password: "".to_string(),
