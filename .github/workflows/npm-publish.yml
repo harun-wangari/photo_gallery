@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: Install depedencies
-        run: npm ci
+        run: npm i -f
         working-directory: ./frontend
       - name: Run test
         run: npm run dev
