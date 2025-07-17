@@ -7,7 +7,7 @@
                 <li class="breadcrumb-item active text-white" aria-current="page">{{navigation.album}}</li>
             </ol>
         </nav>
-        <div :class= "menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive  ? 'main row' : 'main row overflow-y-auto'">
+        <div :class= "menu.uploadWindowIsActive || menu.viewPhotoWindowIsActive  ? 'main' : 'main overflow-y-auto'">
             <Thumbnail v-for = "file,index in media.activeAlbum" :image="file" :id="index" @dblclick="handleThumbnailDblClick" />
             <div class="fs-5 text-center text-white h-50" :class="media.activeAlbum.length > 0 ? 'd-none' : ''">No files Found</div>
             <div  :class="menu.viewPhotoWindowIsActive? 'photos' : 'photos d-none'" >
@@ -51,8 +51,9 @@
     opacity: .95;
 }
     .main{
-        display: flex;
-        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+        gap: 0.5rem;
         top: 0;
         padding: 0;
         height: 92vh;

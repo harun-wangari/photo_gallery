@@ -17,7 +17,6 @@
         margin: 10px;
         opacity: .9;
         padding: 5px;
-        width: 200px;
         height: 250px;
         left: 5px;
         top: 5px;
@@ -78,6 +77,10 @@
         transform: rotate(15deg);
         background: #ffffff !important;
         opacity: .7;
+    }
+
+    .thumbnail:hover{
+        scale: 1.1;
     }
 
     .image{

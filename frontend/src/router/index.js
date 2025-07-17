@@ -1,19 +1,14 @@
 import {createRouter,createWebHistory} from "vue-router"
-import Login from "../views/Login.vue"
-import Signup from "../views/Signup.vue"
 import Dashboard from "../views/Dashboard.vue"
-import pinia,{useUserStore} from '../assets/store'
 import TestGround from "../views/TestGround.vue"
-import { setActivePinia } from "pinia"
-import PasswordRecover from "../views/PasswordRecover.vue"
-
-setActivePinia(pinia)
 
 const routes = [
     {
         path:"/login",
         name:"Login",
-        component: Login,
+        // lazy load the component
+        // this will only load the component when the route is visited
+        component: () => import("../views/Login.vue"),
         beforeEnter: (to,from) => {
             const token = localStorage.getItem('token')
             if(token){
@@ -24,7 +19,8 @@ const routes = [
     {
         path:"/signup",
         name:"Signup",
-        component: Signup,
+        // lazy load the component
+        component: () => import("../views/Signup.vue"),
         beforeEnter: (to,from) => {
             const token = localStorage.getItem('token')
             if(token){
@@ -46,7 +42,8 @@ const routes = [
     {
         path:"/recoverpassword",
         name:"RecoverPassword",
-        component: PasswordRecover,
+        // lazy load the component
+        component: () => import("../views/PasswordRecover.vue"),
         beforeEnter: (to,from) => {
             const token = localStorage.getItem('token')
             if(token){
